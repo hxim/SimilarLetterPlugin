@@ -7,26 +7,390 @@
             * { border-style: solid; border-width: 0; }
 			body {  background-color:#474747; overflow: hidden; margin: 3px 8px 0 8px; }
             body, button, input { font-family: "Open Sans", Sans-Serif; font-size: 13px; color: #d5d5d5; }
-            input { background-color: #252525; border-radius: 3px; padding: 3px; box-sizing: border-box; width: 80px; margin: 1px 2px 0 2px; line-height: 17.5px; }
-            button { padding: 2px 5px 3px 5px; border-radius: 3px; background-color: #606060; border-top-width: 1px; border-top-color: rgba(255, 255, 255, 0.15); border-bottom-width: 1px;
-                     border-bottom-color: rgba(0, 0, 0, 0.6); overflow: hidden; text-align: center; white-space: nowrap; user-select: none; cursor: default; line-height: 17.5px; height: 26px;
+            input { background-color: #252525; border-radius: 3px; padding: 3px; box-sizing: border-box; margin: 0 2px; line-height: 17.5px; transition: border 0.5s; border: 1px solid #252525;}
+            input:hover, input:focus { border: 1px solid #3482f6; outline: none !important; }
+            button { padding: 2px 5px 3px 5px; border-radius: 3px; background-color: #5d5d5d; border-top-width: 1px; border-top-color: rgba(255, 255, 255, 0.15); border-bottom-width: 1px;
+                     border-bottom-color: rgba(0, 0, 0, 0.6); overflow: hidden; text-align: center; white-space: nowrap; user-select: none; cursor: default; height: 25px;
                      margin: 1px;  }
             button:hover { background-color: #6a6a6a; }                     
             ol { padding: 6px 0 6px 26px; margin: 0; }
             ol > li, p { margin-top: 0; margin-bottom: 6px; user-select: none; }
+            #keyboard { font-size: 0; box-shado1w: 0px 0px 20px rgba(0, 0, 0, 0.25); width: 247px; border: 1px solid #252525; margin-top: 6px; padding: 4px; }
+            #keyboard button { width: 19px; height: 22px; padding: 0; margin: 0; border: 0; font-size: 13px; background-color: #474747; }
+            #keyboard button:hover { background-color: #353535; }
 			#results { background-color: #252525; padding: 4px; height: 110px; position: relative; border-radius: 7px; user-select: none; }
-			#results > span { display: inline-block; background-color: #454545; border-top-left-radius: 4px; border-top-right-radius: 4px; padding: 4px 7px 6px 7px;}
+			#results > span.tab { display: inline-block; background-color: #454545; border-top-left-radius: 4px; border-top-right-radius: 4px; padding: 4px 7px 6px 7px;}
+			#results > #arrletters { display: inline-block; float: right; padding: 2px 7px 0 7px; }
             #cont { background-color: #454545;  padding: 4px; position: absolute; top: 30px; bottom: 4px; left: 4px; right: 4px; overflow-y: auto; scrollbar-color: #222222 rgba(0,0,0,0.2); scrollbar-width: thin;  }
 			#cont::-webkit-scrollbar { width: 8px; background: rgba(0,0,0,0.2); }
 			#cont::-webkit-scrollbar-thumb { background: #222222; margin: 2px; }
-            .fbutton { background: #454545 none 4px 5px no-repeat; height: 24px; line-height: 24px; white-space: nowrap; cursor: pointer; border-radius: 3px; padding: 1px 1px 1px 30px; position: relative; overflow: hidden; }
-            .fbutton:hover { background: #353535 none 4px 5px no-repeat; }
-            .fbutton > span { position: absolute; right: 0px; padding: 0 8px; background-color: inherit;  }
+            #cont > .fbutton { background: #454545 none 4px 5px no-repeat; height: 24px; line-height: 24px; white-space: nowrap; cursor: pointer; border-radius: 3px; padding: 1px 1px 1px 30px; position: relative; overflow: hidden; }
+            #cont > .fbutton:hover { background: #353535 none 4px 5px no-repeat; }
+            #cont > .fbutton > span { position: absolute; right: 0px; padding: 0 8px; background-color: inherit;  }
+            #cont > .wait { padding: 3px; text-align: center; margin: 15px; }
+            #cont > .wait > .text { padding-top: 3px; }
+            .spinner {  margin: auto; border: 3px solid #5d5d5d; border-radius: 50%; border-top: 3px solid #c7c7c7; width: 14px; height: 14px; animation: spinner 2s linear infinite; }
+            @keyframes spinner { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         </style>
+<script>
+   
+var flstring = "!PaulMaul,9~-#6,1942report,20db,1~Dumb,3dumb,ABeeZee-#4,9~2,1~aargh#3,1~bel-#2,2~hayaLibre-#6,13~B#6,13~A,13~2,13~1,2~rilFatface-#2,1~cknowledgement,2~lonica-#2,2~me-#2,2~tionMan,9~-#6,12~#4,11~4,9~Extended,17~-#6,20~#4,19~4,9~Shaded,15~-#4,3~or-#2,1~damina-#2,2~hesiveNrSevenBanners,2~ventPro-#6,11~B#5,11~5,11~A,11~2,11~1,11~7,1~ftasans,8~-#4,5~erif,9~-#4,3~erShok,1~guafinaScript-#2,1~ileron-#9,10~#4,9~6,10~#4,9~D,10~#4,9~4,9~5,10~#4,9~2,9~1,10~#4,9~7,10~#4,8~Ultra#5,15~#4,2~rAmerica-#2,3~stream,1~kayaKanadaka-#2,5~Telivigala-#2,2~ronim-#2,1~ladin-#2,3~ta-#2,4~si-#2,2~drich-#2,2~ef-#6,6~2,3~greya-#9,11~#4,10~6,11~#4,10~B#6,13~#4,10~4,10~A,11~#4,10~2,10~1,11~#4,8~SC-#9,13~#4,12~6,13~#4,12~B#6,15~#4,12~4,12~A,13~#4,12~2,9~ans-#9,15~#4,14~6,15~#4,14~B#6,17~#4,14~4,14~5,15~#4,14~A,15~#4,14~2,14~7,15~#4,12~SC-#9,17~#4,16~6,17~#4,16~B#6,19~#4,16~4,16~5,17~#4,16~A,17~#4,16~2,16~7,17~#4,3~o-#6,7~#4,6~4,6~5,7~#4,6~2,3~xBrush-#2,2~faSlabOne-#2,2~ice-#2,3~ke-#2,5~Angular-#2,2~lan-#6,7~2,3~erta-#2,7~Stencil-#2,3~ison-#2,3~ura-#2,2~marai-#6,9~B#6,9~5,9~2,3~endra-#6,11~#4,10~4,10~2,8~Display-#2,8~SC-#6,13~#4,12~4,12~2,2~phaEcho,2~umniSans-#9,13~#4,12~6,13~#4,12~B#6,15~#4,14~5,15~#4,12~4,12~5,13~#4,12~A,13~#4,12~2,12~1,13~#4,12~7,13~#4,1~madeus-#2,3~gro-bold,3~rante-#2,7~h-#6,11~#4,10~4,10~2,3~tic-#6,6~SC-#6,10~2,2~ble-#6,8~#4,7~4,7~5,8~#8,10~#4,9~4,7~2,2~erika,7~Alternates,7~Sans,3~thysta-#2,2~iko-#6,7~2,7~1,3~ri-#6,8~#4,7~4,7~2,3~ta-#6,7~2,1~nagram,3~heim-#2,2~dada-#6,9~#4,8~4,8~2,6~Pro-#6,12~#4,11~B#6,14~#4,11~4,11~A,12~#4,11~2,11~1,12~#4,6~SC-#6,11~#4,10~4,10~2,3~ika-#2,6~NewBasic-#6,17~#4,16~4,16~2,2~gkor-#2,2~nieUseYourTelescope-#2,2~onymous,9~Pro,12~-#6,15~#4,14~4,14~2,2~tic-#2,5~Didone-#2,5~Sans,6~lab,9~-#2,3~on-#2,5~io-#6,9~B#5,9~5,9~A,9~2,9~1,9~7,2~uDaw,6~#4,1~quilineTwo,1~rapey-#4,8~2,2~butus,7~-#2,7~Slab-#2,2~chistico-#6,12~3,5~tectsDaughter,18~-#2,5~vo-#9,10~#4,9~6,10~#4,9~B#6,12~#4,11~5,12~#4,9~4,9~5,10~#4,9~A,10~#4,9~2,9~1,10~#4,9~7,10~#4,7~#9-#2,7~Narrow-#6,16~#4,15~4,15~A,16~#4,15~2,15~1,16~#4,3~on-#2,6~Rounded-#2,2~eYouSerious-#2,3~fRuqaa-#6,11~2,2~imaKoshi-#9,12~6,12~B#5,12~5,12~A,12~2,12~1,12~7,5~Madurai-#9,14~6,14~B#6,16~5,14~5,14~A,14~2,14~1,14~7,4~o,5~-#6,8~#4,7~4,7~A,8~#4,7~2,7~1,8~#4,3~zonia-#2,2~mWrestler-#6,3~aliteRifle,4~ta-#2,2~senal-#6,10~#4,9~4,9~2,2~tifika-#A,10~2,2~vo,4~-#6,7~#4,6~4,2~ya-#6,6~2,1~sap-#6,7~#4,6~4,6~A,7~#4,6~2,6~1,7~#4,5~Symbol,4~#8-#6,9~#4,8~4,8~A,9~#4,8~2,8~1,9~#4,3~r-#2,2~set-#2,3~istant-#6,11~B#6,13~5,11~5,11~A,11~2,11~1,2~tloch-#6,9~2,2~ul-#6,6~2,1~thiti-#6,8~B#5,8~5,8~A,8~2,8~1,2~kinsonHyperlegible-#6,23~#4,22~4,22~2,2~ma-#6,6~5,6~A,6~2,6~1,2~omicAge-#2,1~ubrey-#2,2~diowide-#2,2~rulentSans-#6,15~#4,14~4,14~2,12~Mono-#2,2~tourOne-#2,1~vara-#6,8~#4,2~erage-#2,7~Sans-#2,4~iaGruesaLibre-#2,6~Libre-#6,14~#4,13~4,13~5,14~#4,13~2,6~SansLibre-#6,18~#4,17~4,17~5,18~#4,17~2,7~erifLibre-#6,19~#4,18~4,18~5,19~#4,18~2,1~zeretMono-#9,13~#4,12~6,13~#4,12~B#6,15~#4,14~5,15~#4,12~4,12~5,13~#4,12~A,13~#4,12~2,12~1,13~#4,12~7,13~#4,2~oftSans,9~-#6,12~#4,11~4,B612-#6,7~#4,6~4,6~2,4~Mono-#6,11~#4,10~4,10~2,1~PDiet-Ultra#9,14~#4,2~dots,6~-#6,8~5,6~#8,8~Diamond,8~Square,6~Diamond,13~-#6,15~5,6~Minus,11~-#6,6~Plus,10~-#6,6~Squares,13~-#6,15~5,6~Unicase,13~-#6,15~5,13~Diamond,20~-#6,22~5,13~Minus,18~-#6,13~Plus,17~-#6,13~Square,19~-#6,21~5,13~Vertical,21~-#6,6~Vertical,14~-#6,2~mono,6~-#6,8~4,2~replay,8~-#6,11~#4,10~4,2~script,1~adScript-#2,2~hiana-#2,6~ita-#2,2~iJamjuree-#6,14~#4,13~B#5,16~#4,13~4,13~5,14~#4,13~A,14~#4,13~2,13~1,14~#4,3~nsley,8~-#6,11~#4,10~4,2~kbakOne-#2,2~lgruf,7~-#4,3~let16pt-#2,3~oo,5~2-#6,8~B#6,8~A,8~2,8~1,5~Bhai2-#6,12~B#6,12~A,12~2,12~1,9~jaan2-#6,16~B#6,16~A,16~2,16~1,9~na2-#6,14~B#6,14~A,14~2,14~1,5~Chettan2-#6,15~B#6,15~A,15~2,15~1,5~Da2-#6,10~B#6,10~A,10~2,10~1,5~Paaji2-#6,13~B#6,13~A,13~2,13~1,5~Tamma2-#6,13~B#6,13~A,13~2,13~1,9~udu2-#6,15~B#6,15~A,15~2,15~1,6~hambi2-#6,14~B#6,14~A,14~2,14~1,3~samiqSans-#6,15~#4,14~4,14~2,3~thazar-#2,2~ngers-#2,3~ksia,7~#9,8~6,2~rlow-#9,9~#4,8~6,9~#4,8~B#6,11~#4,10~5,11~#4,8~4,8~5,9~#4,8~A,9~#4,8~2,8~1,9~#4,8~7,9~#4,6~#8-#9,11~#4,10~6,11~#4,10~B#6,13~#4,12~5,13~#4,10~4,10~5,11~#4,10~A,11~#4,10~2,10~1,11~#4,10~7,11~#4,6~Semi#8-#9,15~#4,14~6,15~#4,14~B#6,17~#4,16~5,17~#4,14~4,14~5,15~#4,14~A,15~#4,14~2,14~1,15~#4,14~7,15~#4,3~riecito-#2,5~o-#2,2~sic-#2,3~kervville-#4,14~2,2~ttambang-#9,12~6,12~5,12~2,12~7,2~umans-#2,2~yon-#2,1~eVietnam-#6,12~#4,11~B#6,14~#4,11~4,11~5,12~#4,11~A,12~#4,11~2,11~1,12~#4,11~7,12~#4,9~Pro-#9,15~#4,14~6,15~#4,14~B#6,17~#4,16~5,17~#4,14~4,14~5,15~#4,14~A,15~#4,14~2,14~1,15~#4,14~7,15~#4,2~arpaw,2~bas-#2,5~Kai,5~Neue-#2,11~7,9~#6,10~C,10~5,10~2,2~lgrano-#2,3~lefair-#2,5~za-#2,4~igerentMadness,4~ota-#6,10~#4,9~4,9~5,10~#4,9~2,7~Text-#6,14~#4,13~4,13~5,14~#4,13~2,2~nchNine-#6,11~5,11~2,3~ne-#2,3~tham-#2,7~#2,2~rkshireSwash-#2,2~sley-#9,9~#4,8~6,9~#4,8~B#6,11~#4,8~4,8~A,9~#4,8~2,8~1,9~#4,2~thEllen-#2,9~2#2,2~van,5~-#4,7~2,1~igShouldersDisplay-#9,21~6,21~B#6,23~5,21~5,21~A,21~2,21~1,21~7,12~InlineDisplay-#9,27~6,27~B#6,29~5,27~5,27~A,27~2,27~1,27~7,18~Text-#9,24~6,24~B#6,26~5,24~5,24~A,24~2,24~1,24~7,12~StencilDisplay-#9,28~6,28~B#6,30~5,28~5,28~A,28~2,28~1,28~7,19~Text-#9,25~6,25~B#6,27~5,25~5,25~A,25~2,25~1,25~7,12~Text-#9,18~6,18~B#6,20~5,18~5,18~A,18~2,18~1,18~7,3~elowRules-#2,3~shotOne-#2,2~lbo-#2,5~SwashCaps-#2,2~oRhyme-#6,10~B#6,12~5,10~5,10~2,8~Expanded-#6,18~B#6,20~5,18~5,18~2,2~rthstone-#2,10~Bounce-#A,18~2,3~yani-#9,9~6,8~Demi#6,8~#B#6,11~5,9~D,9~5,9~2,9~1,8~Ultra#5,2~tstreamVeraSans-#6,20~Oblique,18~Oblique,18~Roman,17~Mono-#6,24~Ob,22~Oblique,22~Roman,14~erif-#6,19~Roman,3~ter-#9,9~#4,8~6,9~#4,8~B#6,11~#4,10~5,11~#4,8~4,8~5,9~#4,8~A,9~#4,8~2,8~1,9~#4,8~7,9~#4,#9AndWhitePicture-#2,2~HanSans-#2,2~Jack,2~OpsOne-#2,2~Rose,2~out-2AM,6~Midnight,Blazium,2~inker-#9,9~6,9~B#6,11~5,9~2,9~1,9~7,2~okletters-Balpen,12~Potlood,12~Viltstift,3~ody,2~uuNext-#6,11~#4,9~Titling,1~odoniModa11pt-#9,17~#4,16~6,17~#4,16~B#6,19~#4,16~4,16~A,17~#4,16~2,16~1,17~#4,6~XT,6~town,2~isu-Fill,7~ull,6~Stroke,2~kor-#2,2~mbay-#9-Unicode,2~naNova-#6,10~4,10~2,3~bon-#2,3~heurRoyale-#2,3~venoCF-#5,2~ogaloo-#2,2~stonTraffic,2~wlbyOne,9~-#2,9~SC-#2,2~ycott,1~rawler,7~-#2,2~eeSerif-#2,2~izel,2~ushstroke-Plain,2~ygada1918-#6,14~#4,13~4,13~A,14~#4,13~2,13~1,14~#4,1~ubblegumSans-#2,6~rOne,10~-#2,2~da-#5,2~enard-#6,9~2,2~ngee-Hairline,7~Inline,7~Outline,7~#2,7~Shade,6~Hairline-#2,6~Inline-#2,6~Layers-Inline,13~Outline,13~#2,13~Shade,12~Rotated-Inline,20~Outline,20~#2,20~Shade,6~Outline-#2,6~Shade-#2,2~tcherman-#2,3~terflyKids-#2,CMUBright-Oblique,10~Roman,10~#1,12~Oblique,3~ClassicalSerif-#4,4~oncrete-#6,14~#4,13~4,12~Roman,3~SansSerif,12~-#6,15~Oblique,13~Demi#8,13~Oblique,4~erif-#6,11~#4,11~Slanted,10~4,9~Roman,14~Slanted,9~Upright#4,3~Typewriter-#6,16~#4,15~4,15~5,16~Oblique,15~2,13~Variable,21~-#4,1~abin-#6,8~#4,7~4,7~A,8~#4,7~2,7~1,8~#4,5~#8-#6,9~A,9~2,9~1,5~Sketch,11~-#6,13~2,2~dman,6~-#6,9~#4,8~4,2~esarDressing,2~gliostro-#2,2~iro-#9,7~6,7~B#6,9~5,7~5,7~A,7~2,7~1,2~ladea-#6,10~#4,9~4,9~2,3~istoga-#2,3~ligraffiti,12~ti-#2,2~mbay-#6,9~#4,8~4,8~2,4~o-#2,3~ingoCode-#6,14~#4,13~4,13~2,2~ndal,4~ela-#6,10~-#4,9~C,10~-#4,3~tarell-#6,12~Oblique,10~Oblique,10~#2,5~taOne-#2,4~oraOne-#2,2~priola-#2,3~suula,3~tureit,9~2,2~ramel-#2,4~ttere-#2,3~bonType,3~do-#6,7~4,7~2,3~lito,7~-#6,10~#4,9~4,3~me,3~oni-#2,4~usel,3~rington,4~oisGothic-#2,13~SC-#2,3~terOne,2~scadiaCode,3~lonCalligraphicInitials,6~Initials,3~toro-#4,9~2,2~tamaran-#9,11~6,11~B#6,13~5,11~5,11~A,11~2,11~1,11~7,2~udex,6~-#6,9~#4,8~4,8~2,2~veat-#6,8~A,8~2,8~1,6~Brush-#2,3~iarDreams,12~-#6,15~#4,14~4,1~edarville-Cursive,2~vicheOne-#2,1~hakraPetch-#6,14~#4,13~4,13~5,14~#4,13~A,14~#4,13~2,13~1,14~#4,3~nga-#6,8~B#6,10~5,8~5,8~A,8~2,8~1,6~One,9~-#4,5~o-#2,4~telli-Antiqua,5~icleerRoman,3~risSIL,9~-#6,12~#4,11~4,4~m-#6,7~2,5~onman-#6,12~2,3~thura-#6,10~B#6,10~5,10~2,10~7,3~uPhilomeneOne-#4,18~2,2~elaOne-#2,4~seaMarket-#2,3~nla,3~rish-#2,4~ryCreamSoda-#2,6~Swash-#6,13~2,3~wy-#2,2~icle-#2,3~lanka-#2,3~vo-#9,8~#4,7~6,8~#4,7~B#6,10~#4,7~4,7~5,8~#4,7~A,8~#4,7~2,7~7,8~#4,2~omsky,3~nburi-#2,2~unkFive-#2,9~Print,1~icleFina,9~#4,5~Gordita,12~#4,5~Semi,9~#4,6~hadow,2~nzel-#9,8~6,8~B#6,8~A,8~2,8~1,6~Decorative-#9,18~6,18~2,1~learSans,9~-#6,12~#4,11~4,11~5,11~A,12~#4,11~7,2~ickerScript-#2,2~utchee,1~oda-#B#6,6~D,6~2,4~Caption-#B#6,3~ystar,8~-#5,2~iny-#2,2~laborate-#6,12~5,12~A,12~2,12~7,3~lege,7~#6,8~8,7~Semi#8,2~mbiNumeralsLtd,4~o-#2,3~fortaa,9~-#6,11~5,11~A,11~2,11~1,11~7,7~er-#2,9~Brush-#2,3~icNeue-#6,12~#4,11~4,11~5,12~#4,11~2,5~Relief,5~ZineOT,4~ngSoon-#2,3~mando,4~e-#6,7~B#6,9~5,7~D,7~5,7~A,7~2,7~1,7~7,4~issioner-#9,14~6,14~B#6,16~5,14~5,14~A,14~2,14~1,14~7,4~unist,9~#4,9~Sans,13~#6,3~pagnon-#6,11~5,12~#4,11~A,10~Roman,4~rehension-#1,2~ncertOne-#2,3~diment-#2,3~tent,7~-#6,4~ra,6~-#4,6~ilOne-#2,3~vergence-#2,2~okie-#2,3~perHewitt-#6,15~#4,14~C,15~#4,14~D,15~#4,14~5,15~#4,14~A,15~#4,14~0,15~#4,14~7,15~#4,2~pse,3~ystruct#6,11~3,2~rben-#6,8~2,3~inthia-#6,11~2,3~morant-#6,12~#4,11~4,11~5,12~#4,11~A,12~#4,11~2,11~1,12~#4,9~Garamond-#6,20~#4,19~4,19~5,20~#4,19~A,20~#4,19~2,19~1,20~#4,9~Infant-#6,18~#4,17~4,17~5,18~#4,17~A,18~#4,17~2,17~1,18~#4,9~SC-#6,13~5,13~A,13~2,13~1,9~Unicase-#6,18~5,18~A,18~2,18~1,18~0,10~pright-#6,18~5,18~A,18~2,18~1,2~stura-#6,8~Demi#6,8~#5,2~urgette-#2,4~ierPrime,12~-#6,15~#4,14~4,14~2,12~Code-#4,18~2,12~Sans-#6,19~#4,18~4,18~2,3~sine,7~-#6,10~#4,9~4,9~2,4~tard-#9,10~2,2~veredByYourGrace,2~wboyHippiePro,1~raftyGirls-#2,2~eepster-#2,3~teRound-#4,12~2,2~imson-#6,10~#4,9~4,8~Roman,8~#0,10~#4,7~Pro-#9,13~#4,12~6,13~#4,12~B#6,15~#4,14~5,15~#4,12~4,12~5,13~#4,12~A,13~#4,12~2,12~1,13~#4,2~oissantOne-#2,2~ushed-#2,1~uprum-#6,9~#4,8~4,8~A,9~#4,8~2,8~1,9~#4,2~teFont-#2,3~ive-#2,6~Mono-#2,D-DIN,5~-#6,7~4,5~#8,7~-#6,5~Exp,8~-#6,10~4,1~ISCO,1~J-Gross,1~MMono-#4,8~5,9~#4,8~A,9~#4,8~2,2~Sans-#6,9~#4,8~4,8~A,9~#4,8~2,3~erifDisplay-#4,16~2,7~Text-#4,13~2,1~PSDbeyond,1~XLBaB-KSCpc-EUC-H,1~aela-#6,7~C,7~4,2~mion,2~ncingScript-#6,15~A,15~2,15~1,13~OT,3~grek-#2,3~iel-#9,8~6,8~2,2~rkerGrotesque-#9,17~6,17~B#6,17~5,17~A,17~2,17~1,2~talegreya-Dot,12~Gradient,12~#7,2~vidLibre-#6,12~A,12~2,3~ys-#2,2~wningofaNewDay,2~yPoster#9,3~s,4~One-#2,1~eStencilNF,2~Valencia-#2,2~arest,7~Open,8~utline,2~huti-#6,9~-#4,8~C,8~4,6~Alt-#6,12~-#4,11~C,11~4,2~jaVuSans,10~-#6,13~Oblique,12~B#5,11~Oblique,10~#8,12~-#6,15~Oblique,13~Oblique,10~Mono,14~-#6,17~Oblique,15~Oblique,7~erif,11~-#6,14~#4,13~4,11~#8,13~-#6,16~#4,15~4,2~kko,2~laGothicOne-#2,3~ius-#2,6~SwashCaps-#2,6~Unicase-#6,15~2,3~laRespira-#2,2~nkOne-#2,2~stroy,3~yrel,2~utsch-Gothic,2~vonshire-#2,3~roye,7~#B,7~SCOSF,7~Unicode,1~hurjati,1~idactGothic-#2,2~gory_Doodles_PS,2~ner-Fatt,6~Obese,6~#2,6~Skinny,2~plomata-#2,9~SC-#2,2~stantGalaxy,4~rict,2~ted,1~oHyeon-#2,2~bkin-Plain,2~kdo-#2,2~mine-#6,8~A,8~2,8~1,2~negalOne-#2,3~gle-#6,8~5,8~2,2~ppioOne-#2,2~rsa-#2,2~sis-#6,7~B#6,9~5,7~5,7~A,7~2,7~1,2~tGothic16-#2,1~rSugiyama-#2,2~awveticaMini,2~oidSans,9~-#6,9~Fallback,9~Mono,6~erif,10~-#6,13~#4,12~4,1~ubiel-#4,6~Plain,3~tronic-Solid,9~Inline,2~plexide,2~ruSans-#2,2~stismo,8~#6,10~#4,9~4,8~Roman,13~-#6,16~#4,15~4,2~tchInitials,1~ymaxionScript,2~nalight-#2,EBGaramond-#6,13~#4,12~B#6,15~#4,12~4,12~A,13~#4,12~2,12~1,13~#4,10~08-#4,14~2,10~12-AllSC,13~#4,14~2,10~Initials,18~F1,19~2,10~SC08-#2,12~12-#2,1~agleLake-#2,2~stMarket,4~SeaDokdo-#2,2~ter-#2,1~conomica-#6,12~#4,11~4,11~2,2~zar-#6,7~B#6,7~A,7~2,7~1,1~do,1~lMessiri-#6,11~A,11~2,11~1,2~ectrolize-#2,2~liotSix,2~sie-#9,7~2,5~#9-#2,5~SwashCaps-#9,16~2,14~#9-#2,1~mblemaOne-#2,3~ossed#9-#3,10~Wide-#3,2~ilysCandy-#2,1~ncodeSans-#9,12~6,12~B#6,14~5,12~5,12~A,12~2,12~1,12~7,10~#8-#9,14~6,14~B#6,16~5,14~5,14~A,14~2,14~1,14~7,10~Expanded-#9,20~6,20~B#6,22~5,20~5,20~A,20~2,20~1,20~7,10~SC-#9,14~6,14~B#6,16~5,14~5,14~A,14~2,14~1,14~7,11~emi#8-#9,18~6,18~B#6,20~5,18~5,18~A,18~2,18~1,18~7,14~Expanded-#9,24~6,24~B#6,26~5,24~5,24~A,24~2,24~1,24~7,2~gagement-#2,3~landHandDB,4~ebert-#2,3~ry,2~igmatic,9~#6,10~4,2~riqueta-#6,11~A,11~2,11~1,2~typo,1~phesis-#2,2~ilogue-#9,11~#4,10~6,11~#4,10~B#6,13~#4,12~5,13~#4,10~4,10~5,11~#4,10~A,11~#4,10~2,10~1,11~#4,10~7,11~#4,1~raser-#2,2~icaOne-#2,1~steban,3~onia-#2,1~uphoriaScript-#2,1~wert-#2,1~xistence-#5,10~Stencil#5,10~Unicase#5,2~o-#9,6~#4,5~6,6~#4,5~B#6,8~#4,7~5,8~#4,5~4,5~5,6~#4,5~A,6~#4,5~2,5~1,6~#4,5~7,6~#4,3~2-#9,7~#4,6~6,7~#4,6~B#6,9~#4,8~5,9~#4,6~4,6~5,7~#4,6~A,7~#4,6~2,6~1,7~#4,6~7,7~#4,2~pletusSans,12~-#6,15~#4,14~4,14~A,15~#4,14~2,14~1,15~#4,4~ora-#2,FFFTusj-#6,1~ORQUE,1~ahkwang-#6,11~#4,10~B#5,13~#4,10~4,10~5,11~#4,10~A,11~#4,10~2,10~1,11~#4,2~miliarPro-#6,2~ncyPants,3~tasqueSansMono-#6,20~#4,19~4,19~2,3~wood,7~-#4,7~Text-#4,13~2,2~rro-#6,7~5,7~A,7~2,3~san-#2,2~scinate-#2,9~Inline-#2,3~terOne-#2,4~hand-#2,2~unaOne,3~stina-#6,11~#4,10~B#6,13~#4,10~4,10~5,11~#4,10~A,11~#4,10~2,10~1,11~#4,3~xSnowBRK,1~ederant-#2,5~o-#2,2~lipa-#2,2~ngardoNeue,12~-#9,3~ix,2~stive-#2,1~inSerifDisplay-#4,17~2,3~gerPaint-#2,2~raCode-#6,10~5,10~A,10~2,9~Retina,9~#1,4~Mono-#6,10~A,10~2,4~Sans-#9,11~#4,10~6,11~#4,10~C,11~#4,9~Eight,14~#4,9~#B#6,13~#4,12~5,13~#4,9~Four,13~#4,9~Hair,13~#4,9~#D,11~#4,10~4,10~5,11~#4,10~A,11~#4,10~2,10~1,11~#4,10~7,11~#4,9~Two,12~#4,9~Ultra,14~#4,15~5,16~#4,8~Compressed-#6,21~#4,20~C,21~#4,19~Eight,24~#4,19~#B#6,23~#4,22~5,23~#4,19~Four,23~#4,19~Hair,23~#4,19~#D,21~#4,20~4,20~5,21~#4,20~A,21~#4,20~2,20~1,21~#4,20~7,21~#4,19~Two,22~#4,19~Ultra#5,26~#4,8~#8-#9,13~#4,12~6,13~#4,12~C,13~#4,11~Eight,16~#4,11~#B#6,15~#4,14~5,15~#4,13~bold#4,11~Four,15~#4,11~Hair,15~#4,11~#D,13~#4,12~4,12~5,13~#4,12~A,13~#4,12~2,12~1,13~#4,12~0#4,12~7,13~#4,11~Two,14~#4,11~Ultra,16~#4,17~5,18~#4,9~B#8-#9,15~#4,14~6,15~#4,14~B#6,17~#4,16~5,17~#4,14~4,14~5,15~#4,14~A,15~#4,14~2,14~1,15~#4,14~7,15~#4,3~ecat#A,1~jallaOne,9~-#2,2~ord-One,1~lamenco-#5,10~2,3~vors,7~-#2,2~eurDeLeah-#2,2~oralia,5~nteatLaura,15~#4,3~wBlock-#2,4~Circular-#2,4~Rounded-#2,2~ux-Architect,14~-#6,17~#4,16~4,1~oglihten,9~#9Pcs,9~No01,12~3,12~7,2~lks-#6,7~D,7~5,7~3,2~ndamento-#4,12~2,3~tAwesome5Brands#2,12~Free#2,16~Solid,4~dinerSwanky-#2,4~leroyBrown,2~rtySecondStreetHB,3~um,1~rancoisOne,11~-#2,4~kRuhlLibre-#9,16~6,16~5,16~A,16~2,3~unces-9pt#9,14~#4,9~#9,11~#4,10~6,11~#4,10~B#6,13~#4,12~5,13~#4,10~4,10~5,11~#4,10~A,11~#4,10~2,10~1,11~#4,10~7,11~#4,2~eckleFace-#2,3~derickatheGreat-#2,4~okaOne-#2,7~dingbats,3~eMono,8~#6,10~Oblique,8~Oblique,4~Sans,8~#6,10~Oblique,8~Oblique,5~erif,9~#6,11~#4,10~4,4~booterScript,16~-Alts,4~hand-#2,3~nteH1-#2,3~sca-#2,2~ijole,2~uktur-#2,1~ugazOne-#2,3~gles-#2,2~lbo-Argenta,6~Champagne,6~Premier,6~Retro,6~Tano,2~rore,2~turaRenner-#5,14~2,2~zzyBubbles-#6,14~2,GEISTRND,1~FSDidot-#2,3~Neohellenic-#6,17~#4,16~4,16~2,1~abriela-#2,2~egu-#6,7~5,7~2,2~fata-#2,2~lada-#2,4~tiaSIL,10~-#6,3~deano-#2,3~indo-#2,2~mjaFlower-#2,2~ndhiSans-#6,13~#4,12~4,12~2,7~erif-#6,14~#4,13~4,13~2,2~rogier,3~ton#A,2~spar,6~-#6,9~#4,8~4,2~yathri-#6,10~2,10~7,1~elasio,7~-#6,10~#4,9~4,9~A,10~#4,9~2,9~1,10~#4,2~munuLibre-#6,13~B#6,15~5,13~5,13~A,13~2,13~1,2~nos-#9,8~#4,7~6,8~#4,7~B#6,10~#4,9~5,10~#4,7~4,7~5,8~#4,7~A,8~#4,7~2,7~1,8~#4,7~7,8~#4,3~tiumBasic,12~-#6,15~#4,14~4,7~#CBasic,14~-#6,17~#4,16~4,3~zschEtHeyse,14~Alternate,2~o,3~-Oblique,4~#2,3~Oblique,3~metrySoftPro-#6N,3~rama-#9,10~#4,9~6,10~#4,9~B#6,12~#4,11~5,12~#4,9~4,9~5,10~#4,9~A,10~#4,9~2,9~1,10~#4,9~7,10~#4,3~star-#2,7~Fill-#2,2~rmaniaOne-#2,2~sso,1~iantHeadOT,9~TwoOT,2~deonRoman-#2,3~ole-#2,3~ugu,2~ldaDisplay-#2,2~rassol-#2,2~veYouGlory,1~lacialIndifference-#6,21~4,21~2,3~difilthefte,3~ssAntiqua-#2,2~egoo-#6,8~2,2~oriaHallelujah,4~y-#6,8~#4,7~B#6,10~#4,9~5,10~#4,7~4,7~5,8~#4,7~A,8~#4,7~2,7~1,8~#4,7~7,8~#4,2~uten-#9,8~6,8~B#6,10~5,8~5,8~A,8~2,8~1,8~7,1~o-#6,5~#4,4~4,2~#A,4~-#4,2~Mono,6~-#6,9~#4,8~4,2~#2,2~Smallcaps,11~-#4,2~blin,6~One,2~chiHand-#2,2~ldman-#6,9~2,2~ndolaSD,9~-Swash,3~g#3,2~rditas-#6,10~2,2~thicA1-#9,10~6,10~B#6,12~5,10~5,10~A,10~2,10~1,10~7,6~UltraOT,3~u-#2,2~udy#Cletter1911,5~StM,8~-#4,2~wunBatang-#6,13~2,5~Dodum-#2,1~puteks-#6,9~2,1~raduate-#2,3~ndHotel-#2,5~stander-#9,15~#4,14~6,15~#4,14~B#6,17~#4,16~5,17~#4,14~4,14~5,15~#4,14~A,15~#4,14~2,14~1,15~#4,14~7,15~#4,3~vitasOne,2~eatLakesNF,5~Vibes-#2,3~chenFuemen-#2,3~nze-#9,9~#4,8~6,9~#4,8~B#6,11~#4,10~5,11~#4,8~4,8~5,9~#4,8~A,9~#4,8~2,8~1,9~#4,8~7,9~#4,6~Gotisch-#9,15~6,15~B#6,17~5,15~5,15~A,15~2,15~1,15~7,3~yQo-#2,4~scaleBasic,14~-#6,17~#4,16~4,2~iffin,5~osFont,7~SCapsFont,5~y-#2,2~uppo,3~tchShaded,1~udea,5~-#6,7~4,2~gi-#2,2~pter-#6,8~A,8~2,2~rajada,1~wendolyn-#6,11~2,HKGrotesk-#9,11~6,12~#4,12~Legacy,18~#4,11~B#6,11~4,10~Legacy#4,10~#5,12~#4,12~Legacy,18~#4,11~A,12~#4,12~Legacy,18~#4,11~2,12~Legacy,11~1,12~#4,12~Legacy,18~#4,1~VDBodedo-#A,3~ComicSerifPro,3~Edding780-#3,3~Peace,4~oster,9~Clean,3~Rowdy,3~Steinzeit,12~-FillIn,1~abibi-#2,2~chiMaruPop-#2,3~k-#6,7~#4,6~4,6~2,2~hmlet-#9,9~6,9~B#6,11~5,9~5,9~A,9~2,9~1,9~7,2~lant-#6,8~5,8~A,8~2,8~1,2~mburgerHeaven,3~mersmithOne,14~-#2,2~nalei-#2,7~Fill-#2,3~dlee-#2,3~uman-#9,9~6,9~5,9~2,9~7,2~ppyMonkey-#2,5~TimesattheIKOB-#4,21~2,2~rmattan-#6,11~2,3~ting-Plain,2~ttoriHanzo-#5,15~#4,1~eadhunter-#2,4~landOne-#2,#DData,Heebo-#9,7~6,7~B#6,9~5,7~5,7~A,7~2,7~1,7~7,2~lmetNeue-#2,3~sinki,2~nnyPenny-#2,3~ryMorganHand,2~ptaSlab-#9,11~6,11~B#6,13~5,11~5,11~A,11~2,11~1,11~7,2~rrVonMuellerhoff-#2,2~tilica-#6,2~uristica-#6,13~#4,12~4,12~2,2~ydings-Icons,1~iMelody-#2,2~naMincho-#2,3~d-#6,6~5,6~A,6~2,6~1,4~Guntur-#6,12~5,12~A,12~2,12~1,4~Madurai-#6,13~5,13~A,13~2,13~1,4~Siliguri-#6,14~5,14~A,14~2,14~1,4~Vadodara-#6,14~5,14~A,14~2,14~1,1~oltwoodOneSC,3~y-Ravioli,2~memadeApple,13~-#2,4~naje-#2,3~inis,2~rnswoggled,1~urricane-#2,IBMPlexMono,11~-#6,14~#4,13~B#5,16~#4,13~4,13~5,14~#4,13~A,14~#4,13~2,13~1,14~#4,12~Text,16~#4,12~#7,14~#4,7~Sans,11~-#6,14~#4,13~B#5,16~#4,13~4,13~5,14~#4,13~A,14~#4,13~2,13~1,14~#4,12~Text,16~#4,12~#7,14~#4,11~Arabic-#6,19~B#5,19~5,19~A,19~2,19~1,19~7,11~Cond-#6,18~#4,17~B#5,20~#4,17~4,17~5,18~#4,17~A,18~#4,17~2,17~1,18~#4,17~7,18~#4,11~Devanagari-#6,23~B#5,23~5,23~A,23~2,23~1,23~7,11~Hebrew-#6,19~B#5,19~5,19~A,19~2,19~1,19~7,11~KR-#6,15~B#5,15~5,15~A,15~2,15~1,15~7,11~Thai-#6,17~B#5,17~5,17~A,17~2,17~1,17~7,15~Looped-#6,23~B#5,23~5,23~A,23~2,23~1,23~7,8~erif,12~-#6,15~#4,14~B#5,17~#4,14~4,14~5,15~#4,14~A,15~#4,14~2,14~1,15~#4,13~Text,17~#4,13~#7,15~#4,1~M_FELL_DW_Pica_#4,16~PRO_#4,20~Roman,16~Roman,16~SC,9~ouble_Pica_#4,20~PRO_#4,24~Roman,20~Roman,20~SC,8~English_#4,16~PRO_#4,20~Roman,16~Roman,16~SC,8~FLOWERS_1,16~2,9~rench_Canon_#4,21~PRO_#4,25~Roman,21~Roman,21~SC,8~Great_Primer_#4,21~PRO_#4,25~Roman,21~Roman,21~SC,1~barraRealNova-#6,17~#4,16~4,16~A,17~#4,16~2,16~1,17~#4,1~ceberg-#2,3~land-#2,1~mbue10pt-#9,11~6,11~B#6,13~5,11~5,11~A,11~2,11~1,11~7,2~mortal,8~-Alternates,2~pactLabel,11~Reversed,3~erialScript-#2,3~rima-#2,1~ncised#9-#3,9~Wide-#3,3~onsolata,11~-#9,13~6,13~B#6,15~5,13~5,13~A,13~2,13~1,2~der-#2,3~ieFlower,4~goOutlineFont-#2,6~#2-#2,3~ubitably,2~fini-#6,8~4,8~2,6~Picto-#6,2~ika,5~-#6,2~knutAntiqua-#9,15~6,15~B#6,15~5,15~A,15~2,15~1,2~riaSans-#6,12~#4,11~4,11~5,12~#4,11~2,6~erif-#6,13~#4,12~4,12~5,13~#4,12~2,2~spiration-#2,2~ter-#9,7~6,8~#4,7~B#6,10~#4,9~5,10~BETA,10~#4BETA,7~4,7~5,8~BETA,8~#4BETA,7~A,8~#4,7~2,7~1,8~#4,7~7,8~BETA,8~#4BETA,5~UI-#9#4,3~ruderAlert,1~rishGrover-#2,1~slandMoments-#2,2~tok-#6,8~#4,7~4,7~2,5~Web-#6,11~#4,10~4,10~2,1~taliana-#2,7~no-#2,2~im-#2,JMYZK-LZT---,5~WDTMOD,1~UICE#6-#6,7~#4,6~4-#4,6~5,7~#4-#4,6~2,1~acquesFrancois-#2,15~Shadow-#2,2~ldi-#6,7~2,2~meel-Noori-Nastaleeq,1~ellee-Roman,2~nrivTitling-#6,16~#4,15~4,15~5,16~#4,15~2,2~tBrainsMono-#6,16~#4,15~B#6,18~#4,17~5,18~#4,15~4,15~5,16~#4,15~A,16~#4,15~2,15~1,16~#4,15~7,16~#4,1~imNightshade-#2,2~nky,1~ockeyOne-#2,2~llyLodger,2~mhuria-#2,3~olhari,9~-#2,2~sefinSans-#6,14~#4,13~B#5,16~#4,13~4,13~5,14~#4,13~A,14~#4,13~2,13~1,14~#4,13~7,14~#4,8~lab,11~-#6,14~#4,13~B#5,16~#4,13~4,13~5,14~#4,13~A,14~#4,13~2,13~1,14~#4,13~7,14~#4,3~t-#9,7~#4,6~6,7~#4,6~B#6,9~#4,8~5,9~#4,6~4,6~5,7~#4,6~A,7~#4,6~2,6~1,7~#4,6~7,7~#4,2~tiOne-#2,2~urnal,1~rhand,1~ua-#2,2~dson,6~-#6,8~4,8~2,6~#6,7~4,2~lee-#2,3~iusSansOne-#2,2~nction-#6,10~5,10~2,3~ge-#2,4~leFever,3~icode,8~-#6,11~#8,12~4,13~#8,10~4,11~#8,10~2#8,2~ra-#6,6~5,6~A,6~2,6~1,4~#C,4~Demi#6,4~#5,5~A,2~stAnotherHand-#2,4~MeAgainDownHere,4~OldFashion,K2D-#6,6~#4,5~B#6,8~#4,7~5,8~#4,5~4,5~5,6~#4,5~A,6~#4,5~2,5~1,6~#4,5~7,6~#4,1~JV1611,1~adwa-#6,7~2,2~iseiDecol-#6,13~A,13~2,6~HarunoUmi-#6,17~A,17~2,6~Opti-#6,12~A,12~2,6~Tokumin-#6,15~B#6,15~A,15~2,2~lam-#6,7~5,7~2,3~ocsaiFlowers,2~meron,7~-#6,2~nit-#9,8~#4,7~6,8~#4,7~B#6,10~#4,9~5,10~#4,7~4,7~5,8~#4,7~A,8~#4,7~2,7~1,8~#4,7~7,8~#4,3~tumruy-#6,11~5,11~2,2~rantina-#6,11~5,11~2,4~tula#6,10~#4,9~4,9~3,3~la-#6,8~#4,7~B#6,10~#4,9~5,10~#4,7~4,7~5,8~#4,7~A,8~#4,7~2,7~1,8~#4,3~ma-#6,7~5,7~A,7~2,7~1,4~illa-#6,10~2,3~nivore,9~-#6,9~#9,9~Digit,9~Lite,9~Tecca,2~tibeh-#2,2~ushanScript-#2,2~vivanar-#2,3~oon-#2,1~damThmor,1~eaniaOne-#2,2~llsSD,4~ySlab-#2,3~mscottRoman,3~vinch,8~-#6,11~#4,10~4,2~nia-#2,1~hand-#6,7~5,7~A,7~2,7~1,7~0,2~mer,2~ula-#6,7~B#6,7~5,7~2,7~1,7~0,1~ings-#2,4~things-Calligraphica-#4,26~5,11~Flourishes,11~Gothique,11~Italique,11~Spikeless,11~Versalis,11~Wrote,11~Xstitch,10~Calligraphica2,10~Exeter,10~Foundation,10~Petrock,17~#5,11~rintingkit,10~Trypewriter2,2~rangHaerang-#2,2~teOne-#2,2~wiMaru-#5,10~A,10~2,1~leeOne-#2,9~1,1~newave-#2,2~owYourProduct,1~oHo-#6,7~#4,6~B#5,9~#4,6~4,6~5,7~#4,6~A,7~#4,6~2,6~1,7~#4,2~dchasan-#6,12~#4,11~B#5,14~#4,11~4,11~5,12~#4,11~A,12~#4,11~2,11~1,12~#4,2~hSantepheap-#9,15~6,15~5,15~2,15~7,2~lkerBrush-#2,2~mikaAxis,6~Display,13~-#6,13~Kaps,17~-#6,6~Hand,10~-#6,13~#4,12~4,6~Parch,6~Text,10~-#6,13~#4,12~4,10~Kaps,14~-#6,17~#4,16~4,10~Tight,15~-#4,7~itle,11~-Axis,12~Kaps,12~Paint,12~Wide,2~ntrapunkt#6,12~5,13~#4,2~sugi-#2,6~Maru-#2,2~ttaOne-#2,2~ulen-#2,1~ranky-#2,2~eon-#6,7~5,7~A,7~2,7~1,2~isti,6~-#2,2~onaOne-#2,2~ub-#6,7~#4,6~B#5,9~#4,6~4,6~5,7~#4,6~A,7~#4,6~2,6~1,7~#4,1~ufam-#9,8~#4,7~6,8~#4,7~B#6,10~#4,7~4,7~A,8~#4,7~2,7~1,8~#4,2~limPark-#6,12~#4,11~B#5,14~#4,11~4,11~5,12~#4,11~2,11~1,12~#4,2~marOne-#2,8~Outline-#2,3~bhSans-#9,11~6,11~B#6,13~5,11~5,11~A,11~2,11~1,11~7,2~rale-#2,LIBRARY3AM,10~soft,1~MMono10-#4,10~2,6~Caps10-Oblique,13~#2,6~Lt10-#6,13~Oblique,11~Oblique,11~#2,8~Cond10-Oblique,15~#2,6~Prop10-Oblique,13~#2,10~Lt10-#6,17~Oblique,15~Oblique,15~#2,6~Slant10-#2,2~Roman10-#6,12~#4,11~4,11~2,7~Caps10-Oblique,14~#2,7~Demi10-Oblique,14~#2,8~unh10-Oblique,14~#2,7~Slant10-#6,16~2,2~Sans10-#6,11~Oblique,9~Oblique,9~#2,6~DemiCond10-Oblique,17~#2,1~aBelleAurore,2~borUnion-#2,11~Small,2~ck-#4,5~Line-#4,11~2,5~#2,3~onic-#6,9~5,9~2,8~Shadow,3~quer-#2,3~una#4,7~2,2~ila-#6,7~5,7~A,7~2,7~1,2~keshoreDrive,3~kiReddy,2~lezar-#2,2~ncelot,3~dliebe,3~e-Narrow,5~Posh,5~Upper,3~gar-#2,4~don,2~psusPro-#6,2~teef,3~inia-#3,7~#9,3~o-#9,7~#4,6~6,7~#4,5~Hairline,13~#4,5~#D,7~#4,6~4,6~5,7~#4,6~A,7~#4,6~2,6~0,7~#4,6~7,7~#4,2~unica,1~eafyglade,5~shade,3~gueGothic-#8#4,16~2,14~4,14~2,6~Script,12~#7-LeagueScript,15~#2,7~partan-#6,3~nder,2~ckerliOne,11~-#2,2~dger-#2,2~kton-#6,8~4,8~2,2~miesz,3~on-#2,5~Chicken,5~ada-#6,10~5,10~A,10~2,10~1,2~xend-#9,8~6,8~B#6,10~5,8~5,8~A,8~2,8~1,8~7,6~Deca-#9,12~6,12~B#6,14~5,12~5,12~A,12~2,12~1,12~7,6~Exa-#9,11~6,11~B#6,13~5,11~5,11~A,11~2,11~1,11~7,6~Giga-#9,12~6,12~B#6,14~5,12~5,12~A,12~2,12~1,12~7,6~Mega-#9,12~6,12~B#6,14~5,12~5,12~A,12~2,12~1,12~7,6~Peta-#9,12~6,12~B#6,14~5,12~5,12~A,12~2,12~1,12~7,6~Tera-#9,12~6,12~B#6,14~5,12~5,12~A,12~2,12~1,12~7,6~Zetta-#9,13~6,13~B#6,15~5,13~5,13~A,13~2,13~1,13~7,1~iberationMono,14~-#6,17~#4,16~4,10~Sans,14~-#6,17~#4,16~4,11~erif,15~-#6,18~#4,17~4,5~tinusKeyboard-#2,10~Math-#2,11~ono-#2,10~Sans-#6,16~4,16~2,11~erif-#6,18~#4,17~4,17~2,17~0,18~#4,15~Display-#2,15~Initials-#2,3~reBarcode128-#2,15~Text-#2,12~39-#2,14~Extended-#2,22~Text-#2,14~Text-#2,12~EAN13Text-#2,7~skerville-#6,18~4,18~2,5~CaslonDisplay-#2,11~Text-#6,17~4,17~2,5~Franklin-#9,16~#4,15~6,16~#4,15~B#6,18~#4,17~5,18~#4,15~4,15~5,16~#4,15~A,16~#4,15~2,15~1,16~#4,15~7,16~#4,2~corice-#2,2~feSavers-#6,12~B#6,12~2,2~lacMalaria,3~itaOne,3~ly,3~yScriptOne-#2,2~melight,9~-#2,2~nBiolinumO,12~B,12~I,3~LibertineDisplayO,12~IO,12~MO,12~O,13~B,14~I,13~I,13~Z,14~I,3~denHill,10~-#4,12~2,3~guisticsPro-#6,17~#4,16~4,16~2,3~tsec,2~terata-#9,11~#4,10~6,11~#4,10~B#6,13~#4,12~5,13~#4,10~4,10~5,11~#4,10~A,11~#4,10~2,10~1,11~#4,8~#C-#6,13~#4,12~4,12~A,13~#4,12~2,12~1,13~#4,3~tleTroubleGirlBV,2~uJianMaoCao-#2,2~vvic-#9,9~#4,8~6,9~#4,8~B#5,11~#4,8~4,8~5,9~#4,8~A,9~#4,8~2,8~1,9~#4,8~7,9~#4,1~oaded,2~bster-#2,7~1.3,7~Two,10~-#6,13~#4,12~4,2~ndrinaOutline-#2,8~Shadow-#2,9~ketch-#2,14~e-#2,9~olid-#9,15~5,15~2,15~7,3~gCang-#2,2~ra-#6,7~#4,6~4,6~A,7~#4,6~2,6~1,7~#4,2~ve#5-#2,4~YaLikeASister-#2,4~dbytheKing,4~rsQuarrel-#2,1~ucienSchoenschriftvCAT,3~kiestGuy-#2,2~issSans-#6,12~#4,11~2,11~7#4,12~Sans,10~italic,6~erif-#6,13~#4,12~4,12~2,2~nchtype,9~-#8#5,13~A,13~2,10~Expanded#5,19~A,19~2,10~#4,11~5,12~#4,11~A,12~#4,2~sitana,8~-#6,3~tria-#2,2~xiMono,8~-#6,11~Oblique,9~Oblique,4~Sans,8~-#6,11~Oblique,9~Oblique,5~erif,9~-#6,12~Oblique,10~Oblique,3~uriousRoman-#2,9~Script-#2,MPLUS1-#9,8~6,8~B#6,10~5,8~5,8~A,8~2,8~1,8~7,6~Code-#6,12~B#5,12~5,12~A,12~2,12~1,12~7,5~2-#9,8~6,8~B#6,10~5,8~5,8~A,8~2,8~1,8~7,5~CodeLatin-#6,16~B#5,16~5,16~A,16~2,16~1,16~7,1~aShanZheng-#2,2~condo-#2,7~SwashCaps-#2,2~da-#9,6~6,6~B#5,6~5,6~A,6~2,6~1,3~isonSquareIncised,2~genta,3~ra,5~-#6,2~idenOrange-#2,3~tree,7~-#6,9~B#5,9~5,9~A,9~1,2~jorMonoDisplay-#2,5~Snafu,2~ko,2~li-#6,7~#4,6~B#5,9~#4,6~4,6~5,7~#4,6~A,7~#4,6~2,6~1,7~#4,3~lanna,2~ndali,3~jari-#6,9~2,9~7,3~rope-#6,9~B#6,11~5,9~5,9~A,9~2,9~1,3~salva-#2,3~uale-#6,10~#4,9~B#6,12~#4,9~4,9~5,10~#4,9~A,10~#4,9~2,9~1,10~#4,2~rcellus-#2,9~SC-#2,4~kScript-#2,3~garine-#2,4~herita-#9,12~6,12~5,12~2,12~0,10~Variable,3~kaziText-#6,13~A,13~2,13~1,4~oOne-#2,3~melad-#2,3~tel-#6,7~Demi#6,7~#B#6,8~D,8~5,8~2,7~Ultra#5,6~Sans-#9,12~6,11~Demi#6,11~#B#6,14~5,12~D,12~5,12~2,12~1,11~Ultra#5,3~vel-#6,9~#4,8~4,8~2,2~tchbook,3~e-#4,6~2,4~SC-#2,3~hlete-Bulky,14~Slant,9~Skinny,15~Slant,3~iz,2~venPro-#9,10~6,10~B#6,10~A,10~2,10~1,8~#9,9~6,9~A,9~2,1~cLaren-#2,1~eaCulpa-#2,2~ddon,3~ievalSharp,4~o,3~ulaOne-#2,2~eraInimai-#2,2~grim,2~ieScript-#2,2~mbra,2~owScript-#2,2~rienda-#6,10~2_0_wt,8~One-#2,3~riweather-#9,15~#4,14~6,15~#4,14~4,14~5,15~#4,14~2,12~Sans-#6,19~#4,18~C,19~#4,18~BBld#4,19~#6,21~#4,18~4,18~5,19~#4,18~A,19~#4,18~2,18~1,19~#4,2~tal-#2,5~Mania-#2,4~morphous,3~ro,5~phobic,11~-#2,1~iama,2~chroma,2~kodacs,8~PCS,2~llennia,3~onga-#2,3~tonian-#2,9~Tattoo-#2,2~na-#6,6~2,3~ecrafterAlt,3~ipax,7~-#6,9~A,9~2,9~1,4~ver,3~otaur-Phatte,3~strelPosterWHG,2~riamLibre-#6,13~2,3~za-#6,7~A,7~2,7~1,2~ssFajardose-#2,2~tr-#6,6~B#5,6~5,6~A,6~2,6~1,1~ochiyPopOne-#2,9~POne-#2,2~dak,3~ernAntiqua-#2,6~Pictograms,2~gra-#2,2~have-#6,9~#4,8~4,8~5,9~#4,8~A,9~#4,8~2,8~1,9~#4,2~inho,2~lengo,7~-#2,3~le-#2,3~ot,2~msTypewriter,2~nda-#6,7~2,3~lamUniChouk,14~matik,9~Dutsa1,14~2,9~OuChan1,15~2,15~3,15~4,15~5,9~PayTsik,9~SansSerif,9~TikTong,12~rang,3~ofett,4~spaceTypewriter,4~ton-#2,3~sieurLaDoulaise-#2,3~taga-#2,6~uSlab144pt-#6,18~B#5,18~5,18~A,18~2,18~1,18~7,4~eCarlo-#2,5~z-#2,4~serrat-#9,13~#4,12~6,13~#4,12~B#6,15~#4,14~5,15~#4,12~4,12~5,13~#4,12~A,13~#4,12~2,12~1,13~#4,12~7,13~#4,10~Alternates-#9,23~#4,22~6,23~#4,22~B#6,25~#4,24~5,25~#4,22~4,22~5,23~#4,22~A,23~#4,22~2,22~1,23~#4,22~7,23~#4,10~Subrayada-#6,21~2,2~oLahLah-#2,3~nDance-#2,2~thproofScript,2~ul-#2,4~pali-#2,3~ntainsofChristmas-#6,22~2,3~seMemoirs-#2,1~plus1p-#9,9~6,9~B#6,9~5,9~A,9~2,9~7,1~rBedfort-#2,2~Dafoe-#2,3~eHaviland-#2,2~sSaintDelafield-#2,4~heppards-#2,1~ukta-#6,7~B#6,9~5,7~5,7~A,7~2,7~1,5~Mahee-#6,12~B#6,14~5,12~5,12~A,12~2,12~1,7~lar-#6,12~B#6,14~5,12~5,12~A,12~2,12~1,5~Vaani-#6,12~B#6,14~5,12~5,12~A,12~2,12~1,2~li,4~-#6,7~#4,6~B#5,9~#4,6~4,6~5,7~#4,5~Semi-#6#4,5~#1,4~sh-#9,9~#4,8~6,9~#4,8~B#6,11~#4,10~5,11~#4,8~4,8~5,9~#4,8~A,9~#4,8~2,8~1,9~#4,2~nson,6~-#6,9~#4,8~4,2~recho-#9,9~6,9~B#6,11~5,9~5,9~A,9~2,9~1,9~7,2~seoModerno-#9,14~6,14~B#6,16~5,14~5,14~A,14~2,14~1,14~7,2~tluOrnamental,1~yUnderwood,2~ndraine,2~steryQuest,NTR,1~anumBrush,5~Gothic,11~#6,11~Coding,17~-#6,11~#B#6,5~Myeongjo,13~#6,14~B#6,5~Pen,2~utilusPompilius,1~egotiateFree,2~oRetroDraw,8~Fill,8~Shadow,3~nderthaw-#2,2~ris-#9,8~#4,7~6#4,7~5,8~#4,7~1,8~#4,7~7,8~#4,3~koOne-#2,3~vousRex,2~ucha,3~mann,3~ton-#6,8~B#6,10~5,9~bold,9~light,14~#4,8~4,8~5,8~2,7~SC-#6,11~Bbold,12~light,11~5,11~2,6~Cursive-#2,2~wAthenaUnicode,3~Cicle-Fina,13~#4,9~Gordita,16~#4,9~Semi,13~#4,3~Rocker-#2,3~Tegomin-#2,3~sCycle,9~-#6,4~reader16pt-#6,17~#4,16~B#6,19~#4,18~5,19~#4,16~4,16~5,17~#4,16~A,17~#4,16~2,16~1,17~#4,3~tSerif,9~-#4,9~#6,11~-#4,9~Demi,13~-#4,9~#5,11~-#4,1~iconne-#2,2~mbusMono-#6,13~Oblique,11~Oblique,11~#2,6~RomNo9L-Med,17~Ita,14~Reg,17~Ita,6~SanL-Bol,14~Ita,11~Reg,14~Ita,2~ramit-#6,10~#4,9~B#5,12~#4,9~4,9~5,10~#4,9~A,10~#4,9~2,9~1,10~#4,2~xieOne-#2,1~obile-#6,9~#4,8~4,8~A,9~#4,8~2,2~kora-#9,8~6,8~5,8~2,8~7,2~rican-#2,3~wester-#2,2~sifer-#2,7~Caps-#2,2~tCourierSans,14~-#6,3~MaryKate,3~able-#2,3~ethis,3~hingYouCouldDo,3~ice2Std,6~3Std,6~Std,5~iaText-#6,14~#4,13~4,13~2,3~oKufiArabic-#9,16~6,16~B#6,18~5,16~5,16~A,16~2,16~1,16~7,4~Mono,4~NaskhArabic-#6,17~A,17~2,17~1,7~taliqUrdu-#6,18~2,4~RashiHebrew-#9,17~6,17~B#6,19~5,17~5,17~A,17~2,17~1,17~7,4~Sans,8~-#9,11~#4,10~6,11~#4,10~8,11~#9,13~#4,12~6,13~#4,12~B#6,15~#4,14~5,15~#4,12~4,12~5,13~#4,12~A,13~#4,12~1,13~#4,12~7,13~#4,10~B#6,13~#4,12~8,13~#9,15~#4,14~6,15~#4,14~B#6,17~#4,16~5,17~#4,14~4,14~5,15~#4,14~A,15~#4,14~1,15~#4,14~7,15~#4,12~5,13~#4,10~4,10~5,11~#4,10~A,11~#4,10~2,10~1,11~#4,9~Semi#8,15~#9,17~#4,16~6,17~#4,16~B#6,19~#4,18~5,19~#4,16~4,16~5,17~#4,16~A,17~#4,16~1,17~#4,16~7,17~#4,9~#7,11~#4,8~Arabic-#9,16~6,16~B#6,18~5,16~5,16~A,16~2,16~1,16~7,8~Bengali-#9,17~6,17~B#6,19~5,17~5,17~A,17~2,17~1,17~7,8~Devanagari-#9,20~6,20~B#6,22~5,20~5,20~A,20~2,20~1,20~7,9~isplay-#9,18~#4,17~6,18~#4,17~B#6,20~#4,19~5,20~#4,17~4,17~5,18~#4,17~A,18~#4,17~2,17~1,18~#4,17~7,18~#4,8~HK-#9,12~6,12~5,12~A,12~2,12~7,9~ebrew-#9,16~6,16~B#6,18~5,16~5,16~A,16~2,16~1,16~7,8~JP-#9,12~6,12~5,12~A,12~2,12~7,8~KR-#9,12~6,12~5,12~A,12~2,12~7,9~hmer-#9,15~6,15~B#6,17~5,15~5,15~A,15~2,15~1,15~7,8~Math-#2,9~ono-#9,14~6,14~B#6,16~5,14~5,14~A,14~2,14~1,14~7,8~SC-#9,12~6,12~5,12~A,12~2,12~7,9~ymbols-#9,17~6,17~B#6,19~5,17~5,17~A,17~2,17~1,17~7,15~2-#2,8~TC-#9,12~6,12~5,12~A,12~2,12~7,9~hai-#9,14~6,14~B#6,16~5,14~5,14~A,14~2,14~1,14~7,12~Looped-#9,20~6,20~Bbold,21~light,20~5,20~A,20~2,20~0,20~7,9~ibetan,5~erif,9~-#9,12~#4,11~6,12~#4,11~8,12~#9,14~#4,13~6,14~#4,13~B#6,16~#4,15~5,16~#4,13~4,13~5,14~#4,13~A,14~#4,13~1,14~#4,13~7,14~#4,11~B#6,14~#4,13~8,14~#9,16~#4,15~6,16~#4,15~B#6,18~#4,17~5,18~#4,15~4,15~5,16~#4,15~A,16~#4,15~1,16~#4,15~7,16~#4,13~5,14~#4,11~4,11~5,12~#4,11~A,12~#4,11~1,12~#4,10~Semi#8,16~#9,18~#4,17~6,18~#4,17~B#6,20~#4,19~5,20~#4,17~4,17~5,18~#4,17~A,18~#4,17~1,18~#4,17~7,18~#4,10~#7,12~#4,9~Bengali-#9,18~6,18~B#6,20~5,18~5,18~A,18~2,18~1,18~7,9~Devanagari-#9,21~6,21~B#6,23~5,21~5,21~A,21~2,21~1,21~7,10~isplay-#9,19~#4,18~6,19~#4,18~B#6,21~#4,20~5,21~#4,18~4,18~5,19~#4,18~A,19~#4,18~2,18~1,19~#4,18~7,19~#4,9~Hebrew-#9,17~6,17~B#6,19~5,17~5,17~A,17~2,17~1,17~7,9~JP-#9,13~6,13~B#5,13~5,13~A,13~2,13~1,9~KR-#9,13~6,13~B#5,13~5,13~A,13~2,13~1,10~hmer-#9,16~6,16~B#6,18~5,16~5,16~A,16~2,16~1,16~7,9~SC-#9,13~6,13~B#5,13~5,13~A,13~2,13~1,9~TC-#9,13~6,13~B#5,13~5,13~A,13~2,13~1,10~hai-#9,15~6,15~B#6,17~5,15~5,15~A,15~2,15~1,15~7,10~ibetan-#9,18~6,18~B#6,20~5,18~5,18~A,18~2,18~1,18~7,2~vaCut,4~Flat,4~Mono,4~Oval,4~Round,4~Script-#2,5~lim,5~quare,1~umans-#2,2~nito-#9,9~#4,8~6,9~#4,8~B#6,11~#4,10~5,11~#4,8~4,8~5,9~#4,8~A,9~#4,8~2,8~1,9~#4,6~#D-#4,10~2,6~Sans-#9,13~#4,12~6,13~#4,12~B#6,15~#4,14~5,15~#4,12~4,12~5,13~#4,12~2,12~1,13~#4,1~ymphette,OSP-DIN,1~dibeeSans-#2,2~orMeanChey-#2,1~fficeCodePro-#6,16~#4,15~5,16~#4,15~A,16~#4,15~2,16~#4,13~D-#6,17~#4,16~5,17~#4,16~2,17~#4,3~side-#2,1~i-#2,1~ldStamper,6~ndardTT-#6,15~4,15~2,3~enburg-#2,2~e-#2,3~oScript-#6,12~2,10~SwashCaps-#6,21~2,1~oohBaby-#2,1~penSans,8~-#6,11~#4,10~8#6,12~5,13~#4,10~B#6,13~#4,11~bold,15~#4,10~4,10~5,11~#4,10~A,11~#4,10~2,10~1,11~#4,10~0,11~#4,8~#8-#6,12~5,13~#4,9~5-#4,1~ranienbaum-#2,2~bitron-#9,10~6,10~B#6,10~5,10~A,10~2,10~1,2~egano-#4,9~2,3~legaOne-#2,2~ienta-#2,3~gicide,5~nalSurfer-#2,2~kney-#6,8~5,8~A,8~2,2~otund-#D,7~Capitals-#D,1~strichSans-#9,13~6,13~D,13~5,13~A,11~Dashed-#A,11~Inline-#4,19~2,11~Rounded-#A,2~wald-#6,9~#4,7~Demi-#6#4,11~#6,7~#B-#5#4,9~#5,8~D,9~#4,8~5,9~#4,8~A,9~#4,8~2,9~#4,8~1,6~Stencil-#6,1~tama-ep,2~omanopeeOne-#2,1~utfit-#9,8~6,8~B#6,10~5,8~5,8~A,8~2,8~1,8~7,3~gunned,1~verlock-#9,11~#4,10~6,11~#4,10~4,10~2,8~SC-#2,4~pass-#9,11~#4,10~6,11~#4,10~B#6,13~#4,12~5,13~#4,10~D,11~#4,10~4,10~5,11~#4,10~A,11~#4,10~2,10~1,11~#4,10~7,11~#4,8~Mono-#6,14~5,14~A,14~2,14~1,4~theRainbow,2~o,1~xanium-#6,9~B#6,11~5,9~5,9~A,9~2,9~1,2~ygen,6~-#6,9~#4,8~4,8~5,8~2,6~Mono-#2,PTMono-#2,2~RootUI-#6,10~5,10~A,10~2,2~Sans-#6,9~#4,7~Caption,14~#6,7~#4,7~Narrow,13~#6,7~#2,3~erif-#6,10~#4,8~Caption,15~#4,8~#4,9~2,1~acifico,8~-#2,2~dauk-#6,8~2,2~eteRound,10~#6,12~#4,11~4,2~inttheSky-#2,2~lanquin-#6,11~B#5,11~5,11~A,11~2,11~1,11~7,9~Dark-#6,15~A,15~2,15~1,3~etteMosaic-#2,3~itoon-#2,3~oAlto,8~-#4,2~nefresco1wt-#4,15~2,10~250wt-#4,17~2,10~400wt-#4,17~2,10~500wt-#4,17~2,10~600wt-#4,17~2,10~750wt-#4,17~2,10~800wt-#4,17~2,10~999wt-#4,17~2,3~golin-#2,2~prika-#2,2~risienne-#2,2~sseroOne-#2,4~ionOne-#9,12~6,12~2,7~sConflict-#2,2~thwayGothicOne-#2,3~rickHand-#2,11~SC-#2,3~taya-#2,3~uaOne-#2,2~vanam-#2,2~ytoneOne-#2,1~eaceSans,2~cita,2~ddana,2~ralta-#2,3~manentMarker,15~-#2,4~ianSansTypeface,19~-#6,21~4,8~erifTypeface,20~-#6,22~4,8~labSerifTypeface,24~-#6,26~4,3~spectiveSans,15~#9,17~#4,16~6,17~#4,16~4,2~temoss-#2,3~itFormalScript-#2,3~rona-#9,10~#4,9~6,10~#4,9~B#6,12~#4,11~5,12~#4,9~4,9~5,10~#4,9~A,10~#4,9~2,9~1,10~#4,9~7,10~#4,1~hilosopher,11~-#6,14~#4,13~4,13~2,1~iazzolla-#9,12~#4,11~6,12~#4,11~B#6,14~#4,13~5,14~#4,11~4,11~5,12~#4,11~A,12~#4,11~2,11~1,12~#4,11~7,12~#4,2~edra-#2,2~ncoyablack-#9,3~yonScript,2~rataOne-#2,2~xieFont,1~lain#9-#3,7~Wide-#3,3~smaDrip(BRK),10~[Empty](BRK),4~ter-#2,3~y,4~-#6,6~2,4~ball-#2,4~fairDisplay-#9,18~#4,17~6,18~#4,17~B#6,20~#4,17~4,17~A,18~#4,17~2,17~1,18~#4,15~SC-#9,20~#4,19~6,20~#4,19~4,19~2,4~timeWithHotToddies,22~3D,22~Oblique,2~easantly-Plump,3~xifontBV,2~ug-Nickel#9,1~odkova,7~-#6,9~B#6,9~A,9~2,9~1,2~etsenOne-#2,2~iretOne-#2,2~llerOne-#2,3~sku,3~y-#4,6~2,2~mpiere-#2,2~ntanoSans-#2,2~orStory-#2,2~ppins-#9,10~#4,9~6,10~#4,9~B#6,12~#4,11~5,12~#4,9~4,9~5,10~#4,9~A,10~#4,9~2,9~1,10~#4,9~7,10~#4,2~rtLligatSans-#2,11~lab-#2,4~cullion-#6,4~erSansBlock,2~stNoBillsColombo-#6,20~B#6,20~5,20~A,20~2,20~1,2~ttaOne-#2,1~ragatiNarrow-#6,15~2,3~ise-#2,3~ta-#2,2~eahvihear-#2,3~ssStart2P-#2,2~ibambas-#2,3~di-#6,7~B#5,7~5,7~A,7~2,7~1,3~ncessSofia,4~t#6,5~Clearly,5~Dashed,5~ersOrnamentsOne,2~oFontWindows,3~ciono-#2,4~lamate#D-#D,10~Incised-#D,10~#5-#5,3~mocyja,4~pt-#9,9~#4,8~6,9~#4,8~B#6,11~#4,10~5,11~#4,8~4,8~5,9~#4,8~A,9~#4,8~2,8~1,9~#4,8~7,9~#4,3~stoOne-#2,3~zaLibre-#6,13~#4,12~B#6,15~#4,12~4,12~5,13~#4,12~A,13~#4,12~2,12~1,13~#4,1~ublicSans-#9,13~#4,12~6,13~#4,12~B#6,15~#4,14~5,15~#4,12~4,12~5,13~#4,12~A,13~#4,12~2,12~1,13~#4,12~7,13~#4,2~ppiesPlay-#2,2~ritan-#6,10~#4,9~4,9~2,3~plePurse-#2,2~sab,Qahiri-#2,1~ikkiReg,1~omolangma-Art,11~Betsu,11~Chuyig,11~Drutsa,12~unhuang,11~Edict,11~Horyig,11~Subtitle,11~Title,12~sumachu,14~ring,14~tong,11~Uchen-Sarchen,22~ung,18~uring,19~tung,11~Woodblock,1~uaeriteRegnumDei,3~ndo-#2,4~tico-#6,11~#4,10~4,10~2,3~ttrocento,12~-#6,12~Roman,12~Sans,16~-#6,19~#4,18~4,2~estrial-#2,2~ickEndJerk,5~sand-#6,12~#4,11~4,11~5,12~#4,11~A,11~2,11~1,9~Dash-#2,3~gleyWiggly,3~ntessential-#2,2~mpellkaNo12,1~wigley-#2,3~tcherGrypen-#6,16~2,RacingSansOne-#2,2~dley,6~-#4,8~2,2~ilway,7~Alternate,2~jdhani-#6,10~5,10~A,10~2,10~1,10~0,2~kkas-#2,2~leway-#9,10~#4,9~6,10~#4,9~B#6,12~#4,11~5,12~#4,9~4,9~5,10~#4,9~A,10~#4,9~2,9~1,10~#4,9~7,10~#4,7~Dots-#2,2~mabhadra,4~raja,3~bla-#6,9~#4,8~4,8~2,3~mettoOne-#2,3~partOne-#2,2~nchers-#2,5~o,6~-#2,3~ga-#6,7~2,2~pscallion,2~sa-#6,7~#4,6~4,6~5,7~#4,6~A,7~#4,6~2,6~1,7~#4,2~tionale-#2,9~One-#2,2~viPrakash-#2,2~wengulk#6,9~Demibold,9~#5,9~Pcs,9~#2,9~Sans,9~Ultralight,1~eadexPro-#6,11~B#5,11~5,11~A,11~2,11~1,2~chtman-Plain,3~ursive-#9,11~6,11~B#6,11~5,11~A,11~2,11~1,2~dHatDisplay-#9,16~#4,15~6,16~#4,15~B#6,18~#4,15~4,15~5,16~#4,15~A,16~#4,15~2,15~1,16~#4,6~Mono-#6,13~#4,12~4,12~5,13~#4,12~A,13~#4,12~2,12~1,13~#4,6~Text-#6,13~#4,12~4,12~5,13~#4,12~A,13~#4,12~2,12~1,13~#4,3~Rose-#6,9~5,9~A,9~2,9~1,3~acted-#2,8~Script-#6,16~5,16~2,3~ressed,9~-#2,2~emKufi-#6,10~A,10~2,10~1,3~nieBeanie,2~ggaeOne-#2,2~sagnicto,10~#6,11~4,5~okr,8~#6,9~5,3~wysokr,2~valia-#2,1~hodiumLibre-#2,1~ibeye-#2,6~Marrow-#2,2~esling,2~ghteous-#2,2~sque-#2,2~taglio,1~oadRage-#2,2~boto-#9,9~#4,8~6,9~#4,8~4,8~5,9~#4,8~A,9~#4,8~2,8~7,9~#4,6~#8-#6,11~#4,10~4,10~5,11~#4,10~2,6~Mono-#6,13~#4,12~B#5,15~#4,12~4,12~5,13~#4,12~A,13~#4,12~2,12~1,13~#4,12~7,13~#4,6~Slab-#9,12~6,12~B#6,14~5,12~5,12~A,12~2,12~1,12~7,2~chester,9~-#2,3~k3D-#2,4~Salt,8~-#2,4~nRollOne-#2,2~kkitt-#9,9~6,9~B#6,11~5,9~5,9~A,9~2,9~1,9~7,2~manSD,5~esco-#2,2~paSans-#4,10~2,2~sario-#6,10~#4,9~4,9~5,10~#4,9~A,10~#4,9~2,9~1,10~#4,6~vo-#4,10~2,2~thenburgDecorative-#3,4~man-Plain,2~ugeScript-#2,3~ndedMplus1c-#9,16~6,16~B#6,16~5,16~A,16~2,16~7,3~te159-#6,11~#4,10~D,11~#4,10~4,10~5,11~#4,10~2,10~1,11~#4,9~Ultra#5,16~#4,2~wdies-#6,9~5,9~2,2~zhaOne,8~-#2,1~ubik-#9,8~#4,7~6,8~#4,7~B#6,10~#4,7~4,7~5,8~#4,7~A,8~#4,7~2,7~1,8~#4,5~Beastly-#2,5~MonoOne-#2,2~da,4~-#9,6~6,6~B#6,6~A,6~2,6~1,2~fina-#6,8~2,2~geBoogie-#2,2~luko,2~mRaisin-#2,2~slanDisplay,3~soOne-#2,2~thie-#2,1~ye-#2,SFArchRival,11~-#6,14~#4,13~4,11~Extended,19~-#6,22~#4,21~4,6~ery#9,11~-Oblique,11~SC,13~-Oblique,2~BurlingtonScript,18~-#6,21~#4,20~4,2~CartoonistHand,16~-#6,19~#4,18~4,16~SC,18~-#6,21~#4,20~4,3~ollegiate,12~Solid,2~ShaiFontai,12~Distressed,12~Extended,3~lapstickComic,3~peakeasy,11~-Oblique,2~Toontime,10~-#6,13~#4,12~4,10~Blotch,16~-#4,2~Wasabi,8~#8,3~onderComic,13~-#6,16~#4,15~4,13~Blotch,19~-#4,13~Inline,19~-#4,1~TIXTwoText-#6,14~#4,13~4,13~A,14~#4,13~2,13~1,14~#4,1~acramento-#2,2~hitya-#6,9~2,2~il-#2,3~ra-#9,8~#4,7~6,8~#4,7~B#6,10~#4,9~5,10~#4,7~4,7~5,8~#4,7~A,8~#4,7~2,7~1,8~#4,7~7,8~#4,5~#8-#9,10~#4,9~6,10~#4,9~B#6,12~#4,11~5,12~#4,9~4,9~5,10~#4,9~A,10~#4,9~2,9~1,10~#4,9~7,10~#4,6~B#8-#9,12~#4,11~6,12~#4,11~B#6,14~#4,13~5,14~#4,11~4,11~5,12~#4,11~A,12~#4,11~2,11~1,12~#4,11~7,12~#4,5~Semi#8-#9,14~#4,13~6,14~#4,13~B#6,16~#4,15~5,16~#4,13~4,13~5,14~#4,13~A,14~#4,13~2,13~1,14~#4,13~7,14~#4,6~tencilOne-#2,2~laryman,3~sa-#2,2~mba,2~nchez-#4,9~2,4~reek-#2,3~sation-#6,12~#4,11~4,11~5,12~#4,11~2,4~ita-#9,10~#4,9~6,10~#4,9~B#6,12~#4,9~4,9~5,10~#4,9~A,10~#4,9~2,7~Swashed-#9,16~6,16~B#6,16~5,16~A,16~2,16~1,4~umi-#6,9~B#6,3~tana,7~-#9,10~#8,9~6,9~2#8,2~rabun-#6,10~#4,9~B#6,12~#4,11~5,12~#4,9~4,9~5,10~#4,9~A,10~#4,9~2,9~1,10~#4,9~7,10~#4,4~la-#6,8~2,3~ina-#2,3~panch-#9,10~6,10~B#6,10~A,10~2,10~1,3~ySoft-#B#5,10~5,10~2,10~1,10~7,2~ssyFrass-#2,2~tisfy-#2,2~warabiGothic-#A,16~2,8~Mincho-#A,16~2,1~cada-#6,8~#4,7~4,7~2,2~heherazade-#6,14~2,12~New-#6,17~2,3~oolbell,10~-#2,2~opeOne-#2,2~ratch,3~iptina,9~-Alternates,9~Pro,1~earsTower,3~sideResortNF,3~weedScript-#2,2~cularOne-#2,2~dgwickAve-#2,11~Display-#2,8~Co,2~lawik-#6,9~5,9~2,9~0,8~Semilight,3~ima,2~n-#6,5~B#6,5~2,2~shat-#2,3~quipedalian,2~villana-#2,2~ymourOne,1~hadowsInto#5,13~Two-#2,3~limar-#2,3~ngriLaNF,11~SmallCaps,5~shung-Sgoba-KhraChen,23~ung,4~ti,3~re-#6,8~Exp,8~#4,10~Exp,10~OSF,8~OSF,7~4,8~Exp,8~OSF,7~2,8~Exp,8~OSF,6~Tech,10~Exp,10~Mono,14~Exp,5~Tech-#2,9~Mono-#2,2~ipporiAntique-#2,15~B1-#2,8~Mincho-#6,16~B#6,16~A,16~2,16~1,14~B1-#6,18~B#6,18~A,18~2,18~1,3~zuru-#2,2~ojumaru-#2,3~rtStack,2~rikhand-#2,1~iemreap,2~gmar,6~One-#2,3~nika-#6,9~5,9~A,9~2,9~1,9~0,7~Negative-#6,17~5,17~A,17~2,17~1,2~lkscreen,10~-#6,11~Expanded,19~#6,2~monetta-#9,12~#4,11~4,11~2,3~pel-#A,2~ngleDay-#2,3~kinSans-100#7,16~#4,11~200X#5,17~#4,11~300#5,16~#4,11~400#4,15~2,11~500#A,16~#4,11~600#1,16~#4,11~700#6,16~#4,11~800#9,16~#4,11~900X#9,17~#4,3~tony,7~-#6,9~2,2~rinStencil-#2,2~xCaps,1~jonarbok-Classic,1~kranji,7~-#6,1~labo13px-#2,5~27px-#2,3~ckey-#2,2~imJim,3~ng,5~-#6,7~5,2~ukoni-#A,1~mokum-#2,3~och-#2,2~ythe,1~nickles,3~glet-#B#6,9~2,3~ppet,2~owburstOne-#2,1~ofadiOne-#2,3~ia-#2,2~lveig#6,9~-#4,7~Demi#6,13~-#4,8~isplay,14~-#4,7~Text,11~-#4,3~way-#6,8~B#6,8~5,8~A,8~2,2~meTimeLater,2~ngMyung-#2,3~sieOne,9~-#2,2~ra-#6,6~B#6,8~5,6~5,6~A,6~2,6~1,6~7,3~ia-Soria,3~tsMillGoudy-#4,16~2,2~uciSans,3~kouMincho,3~rceCodePro-#9,16~It,16~#4,15~6,16~It,16~#4,15~B#6,18~#4,17~5,18~It,18~#4,14~It,14~#4,15~5,16~It,16~#4,15~A,16~It,16~#4,15~2,15~1,16~#4,15~0,16~It,6~HanSans-#6,15~B#5,15~D,15~5,15~A,15~3,15~2,13~HC-#6,17~B#5,17~D,17~5,17~A,17~3,17~2,14~W-#6,17~2,15~HC-#6,19~2,15~K-#6,18~2,15~SC-#6,19~2,15~TC-#6,19~2,13~K-#6,16~B#5,16~D,16~5,16~A,16~3,16~2,13~SC-#6,17~B#5,17~D,17~5,17~A,17~3,17~2,13~TC-#6,17~B#5,17~D,17~5,17~A,17~3,17~2,10~erif-#6,16~B#5,16~D,16~5,16~A,16~2,16~1,14~K-#6,17~B#5,17~D,17~5,17~A,17~2,17~1,14~SC-#6,18~B#5,18~D,18~5,18~A,18~2,18~1,14~TC-#6,18~B#5,18~D,18~5,18~A,18~2,18~1,6~Sans3-#9,14~#4,13~6,14~#4,13~B#6,16~#4,15~5,16~#4,13~4,13~5,14~#4,13~A,14~#4,13~2,13~1,14~#4,10~Pro-#9,16~It,16~#4,15~6,16~It,16~#4,15~B#5,18~It,18~#4,14~It,14~#4,15~5,16~It,16~#4,15~2,15~1,16~#4,15~0,16~It,7~erif4-#9,15~#4,14~6,15~#4,14~B#6,17~#4,16~5,17~#4,14~4,14~5,15~#4,14~A,15~#4,14~2,14~1,15~#4,11~Pro-#9,17~It,16~6,17~It,16~B#5,19~It,15~It,15~#5,17~It,16~2,16~1,17~It,16~0,17~It,1~paceComics,5~Grotesk-#6,14~5,14~A,14~2,14~1,5~Mono-#6,12~#4,11~4,11~2,3~rtan-#9,9~6,9~B#6,11~5,9~5,9~A,9~2,9~1,9~7,7~MB-#9,11~6,11~B#6,13~5,11~5,11~A,11~2,11~1,11~7,2~ecialElite-#2,4~tral-#6,11~#4,10~B#6,13~#4,12~5,13~#4,10~4,10~5,11~#4,10~A,11~#4,10~2,10~1,11~#4,8~SC-#6,13~#4,12~B#6,15~#4,14~5,15~#4,12~4,12~5,13~#4,12~A,13~#4,12~2,12~1,13~#4,2~icyRice-#2,3~ltInk,3~nCycle3DOT,9~OT,4~naker-#2,3~rax-#2,2~lineSans-#6,12~5,12~A,12~2,12~1,2~ortingGrotesque-#6,19~2,5~rop-#2,2~rat,5~-#8#9,9~6,9~5,9~A,9~7,6~Condesed#2,6~Extended#9,15~6,15~5,15~A,15~7,14~regular,6~#2,8~#9,9~6,9~A,9~7,8~light,1~quadaOne-#2,1~reeKrushnadevaraya,2~iracha-#2,3~sakdi-#6,10~2,1~tMarie-#7,2~aatliches-#2,3~lemate-#2,4~inistOne-#2,3~rdosStencil-#6,16~2,3~teFace-#2,2~ick-#2,5~NoBills-#6,14~B#6,16~5,14~5,14~A,14~2,14~1,3~lu-#6,8~Oblique,7~5,8~Oblique,6~Oblique,6~#2,7~1,8~Oblique,3~ntUltra#8-#2,10~Expanded-#2,2~oke-#5,7~2,2~rait-#2,2~udebaker,2~yleScript-#2,4~ish-#2,1~ubjectivity-#9,15~Slanted,14~6,15~Slanted,14~B#6,17~Slanted,14~5,15~Slanted,14~A,15~Slanted,14~2,15~Slanted,13~Super,18~Slanted,13~#7,15~Slanted,2~eEllenFrancisco,3~zOne-#2,2~itIcons#2,2~lphurPoint-#6,14~5,14~2,2~mana-#6,8~2,2~nflower-#6,11~5,11~A,3~shiney-#2,2~permercado-#2,2~ra-#6,6~2,4~nna,4~varam,3~face-#A,2~wannaphum-#9,13~6,13~5,13~2,13~7,1~wankyandMooMoo,1~ymbolSigns-Basisset,2~ncopate-#6,11~2,3~e-#6,6~B,7~#6,6~4,6~A,5~Mono,5~#2,6~1,4~Mono-#2,4~Tactile-#2,3~thetiqueOT,TCRCYoutsoUnicode,1~TSunflowerL,1~agapagsalaysayCapsNarrator,27~#6,29~#4,28~4,2~jawal-#9,9~6,9~B#6,11~5,9~5,9~A,9~2,2~ngerine,9~-#6,11~2,3~oheSans,10~-#9,13~#4,12~6,13~#4,12~4,12~5,13~#4,12~A,13~#4,12~1,13~#4,12~7,13~#4,2~prom-#2,2~rponMotel,2~uri#2,2~viraj-#9,10~#4,9~6,10~#4,9~B#6,12~#4,11~5,12~#4,9~4,9~5,10~#4,9~A,10~#4,9~2,9~1,10~#4,9~7,10~#4,1~eXGyreAdventor-#6,18~#4,17~4,17~2,7~Bonum-#6,15~#4,14~4,14~2,7~Cursor-#6,16~#4,15~4,15~2,7~Heros-#6,15~#4,14~4,14~2,12~#8-#6,17~#4,16~4,16~2,7~Pagella-#6,17~#4,16~4,16~2,7~Schola-#6,16~#4,15~4,15~2,7~Termes-#6,16~#4,15~4,15~2,2~chnaSans-#2,5~iqueBRK,9~OLBRK,3~nicoFino,11~Inclinado,7~Grueso,13~Inclinado,2~ko-#6,6~5,6~A,6~2,6~1,2~lex-#2,2~naliRamakrishna,3~derness,3~orSans,2~utonicNo1-Demi#6,10~2-Demi#6,10~3-Demi#6,10~4-Demi#6,2~xtMeOne-#2,4~urina12pt-#9,16~#4,15~6,16~#4,15~B#6,18~#4,17~5,18~#4,15~4,15~5,16~#4,15~A,16~#4,15~2,15~1,16~#4,15~7,16~#4,1~hasadith-#6,12~#4,11~4,11~2,2~eGirlNextDoor,3~Nautigal-#6,13~2,3~anoDidot-#2,6~Modern-#2,6~OldStyle-#2,3~scriptofZhangzhungSmar,1~ibetanMachineUni,7~SambhotaYigchung,7~TsugRing,2~enne,6~-#9,8~6,8~D,8~2,2~llana-#6,9~B#6,9~A,9~2,9~1,2~mmana,2~net,3~os,5~-#6,8~#4,7~4,7~2,2~resiasInfofont,16~#4,2~tanOne,3~illium-#9,11~6,12~#4,12~Upright,11~5,12~#4,12~Upright,11~2,12~#4,12~Upright,11~0,12~#4,12~Upright,11~7,12~#4,12~Upright,9~Web-#9,14~6,15~#4,14~B#5,17~#4,14~4,14~5,15~#4,14~2,14~1,15~#4,2~za,1~omorrow-#9,11~#4,10~6,11~#4,10~B#6,13~#4,12~5,13~#4,10~4,10~5,11~#4,10~A,11~#4,10~2,10~1,11~#4,10~7,11~#4,2~pSecret-#6,2~urney-#9,10~#4,9~6,10~#4,9~B#6,12~#4,11~5,12~#4,9~4,9~5,10~#4,9~A,10~#4,9~2,9~1,10~#4,9~7,10~#4,1~radeWinds,3~inOne-#2,3~shHand,2~endyUniversity,2~ickster-#2,3~rong-#9,10~#4,9~6,10~#4,9~B#6,12~#4,11~5,12~#4,9~4,9~5,10~#4,9~A,10~#4,9~2,9~1,10~#4,9~7,10~#4,3~space-#6,10~B#6,12~5,10~5,10~A,10~2,10~1,10~7,2~occhi,7~-#6,9~2,4~hut,7~-#6,9~4,3~glodyteNF,3~ika,2~uculenta-#9,12~6,12~B#6,14~5,12~5,12~A,12~2,12~1,12~7,3~eCrimes,3~mpTownPro,2~ykker-#2,1~uffy,5~-#6,8~-#4,7~4,2~lia,5~-#6,7~4,3~penOne-#2,2~rretRoad-#6,12~B#6,14~5,12~5,12~A,12~2,1~winkleStar-#2,1~ypeMyMusic-Notation,3~oSlabserif-#5,Ubuntu,6~-#6,9~#4,8~4,8~5,9~#4,8~A,9~#4,8~2,7~Title,6~#8-#2,6~Mono-#6,13~#4,12~4,12~2,6~Titling-#6,1~chen-#2,1~glyQua,7~-#4,1~ltra,5~-#2,1~mbrage,1~nBOffice,9~-#6,12~#4,11~4,3~Pro-#9,8~6,9~#4,8~5,8~2,9~#4,2~cialAntiqua-#2,2~derdog-#2,5~woodChampion,2~icaOne-#2,3~frakturCook-#6,10~Maguntia,18~16,19~7,19~8,19~9,18~20,19~1,2~kempt-#6,9~2,2~lock-#2,2~na-#6,7~#4,6~4,6~5,7~#4,6~A,7~#4,6~2,1~pperEastSide,1~rbanist-#9,11~#4,10~6,11~#4,10~B#6,13~#4,12~5,13~#4,10~4,10~5,11~#4,10~A,11~#4,10~2,10~1,11~#4,10~7,11~#4,1~tility#6#8,VAG-HandWritten,1~G5000-#2,1~T323-#2,2~CLettererPro,2~FVictorianna#7,3~_Victorianna#7_italic,1~ampiroOne-#2,2~nBerger-Stencil,3~illa,2~rela,6~Round,11~-#2,3~ta-#6,7~5,7~A,7~2,7~1,2~stShadow-#2,1~eggieburger,12~-#6,14~5,3~ur-#6,7~5,7~2,2~rilySerifMono,3~sa-Versa,2~sperLibre-#6,13~D,13~A,13~2,2~teranTypewriter,1~iaodaLibre-#2,2~bes-#2,3~ur,2~ctorMono-#6,13~#4,13~Oblique,12~B#5,15~#4,15~Oblique,12~4,12~5,13~#4,13~Oblique,12~A,13~#4,13~Oblique,11~Oblique,11~#2,12~1,13~#4,13~Oblique,12~7,13~#4,13~Oblique,2~daloka-#2,2~ga-#2,2~rgo01,1~ladivostok-#6,13~2,1~oces-#2,2~lkhov-#6,10~#4,9~4,9~2,3~lkorn-#9,11~#4,10~6,11~#4,10~B#6,13~#4,10~4,10~A,11~#4,10~2,10~1,11~#4,10~0,11~#4,8~SC-#9,12~6,12~2,12~1,3~taire,1~ujahdayScript-#2,WCManoNegraBta,14~-#6,2~ROUGHTRADBta,3~hesusABta,8~BBta,2~SoldOutABta,9~BBta,9~CBta,2~WunderbachBta-Demi#6,12~MixBta,12~RoughBta,15~nded,1~agnasty,2~itingfortheSunrise,2~lkway#9,8~6,7~Oblique,14~#9,15~6,15~1,14~Ultra#6,7~#1,7~Ultra#6,3~leye,7~-#6,10~#4,9~4,4~poet,3~terTurncoat,14~-#2,2~ngdi-#A,2~rnes-#2,2~terStreet,11~Detour,5~fall-#2,1~ebHostingHub-Glyphs,3~Serveroff,12~-#4,4~ymbols-#2,2~llfleet-#2,2~ndyOne-#2,1~hiteRabbit,5~hall,1~indSong-#A,10~2,4~song,3~terthur#8,12~Oblique,2~reOne,1~oodenNickel#9,2~rkSans-#9,11~#4,10~6,11~#4,10~B#6,13~#4,12~5,13~#4,9~Hairline,9~#4,10~5,11~#4,10~A,11~#4,10~2,10~1,11~#4,10~7,11~#4,XTashi,1~anhMono-#4,10~2,1~enophone,Yaldevi-#6,9~B#5,9~5,9~A,9~2,9~1,2~noneKaffeesatz-#6,18~B#5,18~5,18~A,18~2,18~1,3~tramanav-#9,13~6,13~5,13~A,13~2,13~7,2~taghan,3~raOne-#2,1~ellowMagician,6~tail,10~-#2,2~onSung-#2,2~sevaOne,9~-#2,3~teryear-#2,2~wBasturd#6,12~#4,11~4,11~3,1~okawerad,2~mogi-#2,2~ungSerif-#2,1~rsa-#6,7~#4,6~4,6~5,7~#4,6~A,7~#4,6~2,6~1,7~#4,1~ujiBoku-#2,4~HentaiganaAkari-#2,16~ebono-#2,4~Mai-#2,4~Syuku-#2,2~karimobile,2~seiMagic-#2,ZCOOLKuaiLe-#2,5~QingKeHuangYou-#2,5~XiaoWei-#2,1~ambajoun,2~ntroke,1~enAntique-#2,10~Soft-#2,3~Dots-#2,3~KakuGothicAntique-#9,22~6,22~5,22~A,22~2,13~New-#9,18~6,18~5,18~A,18~2,4~urenaido-#2,3~Loop-#4,9~2,3~MaruGothic-#9,15~6,15~5,15~A,15~2,3~OldMincho-#9,14~6,14~2,3~TokyoZoo-#2,3~da,2~ro&Zero-Is,2~yada,1~hiMangXing-#2,1~illaSlab-#6,12~#4,11~4,11~5,12~#4,11~A,12~#4,11~2,12~#4,11~1,12~#4,9~Highlight-#6,20~2,9~#2,1~nikomit,8~No24,exotica-#A,font3933,iAWriterDuospace-#6,19~#4,18~2,19~#4,1~tsadzoke,9~S01,kawoszeh,1~onstytucyja,mirror82,1~plus-1c-black,10~old,9~heavy,9~light,9~medium,9~regular,9~thin,7~m-bold,9~light,9~medium,9~regular,9~thin,odstemplik,10~#6,1~kolaks#6,9~#4,8~2,9~#4,saxMono,1~pinwerad#6,9~C#6";
+var fontlist = loadfontlist();
+function loadfontlist() {
+    var list = flstring.split(","), list2 = [], last = "";
+    for (var i=0; i < list.length; i++) {
+        var item = list[i];
+        if (item.indexOf("~") >= 0) {
+            var a = item.split("~");
+            item = last.substr(0, parseInt(a[0])) + a[1];
+        }
+        last = item;
+        list2.push(item.replaceAll("#0","Semibold").replaceAll("#1","SemiBold").replaceAll("#2","Regular").replaceAll("#3","Normal")
+                       .replaceAll("#4","Italic").replaceAll("#5","Light").replaceAll("#6","Bold").replaceAll("#7","Thin").replaceAll("#8","Condensed")
+                       .replaceAll("#9","Black").replaceAll("#A","Medium").replaceAll("#B","Extra").replaceAll("#C","Book").replaceAll("#D","Heavy"));
+    }
+    return list2;
+}
+var insertLayerScript = function() {
+    var textLayer = app.activeDocument.layers.add();
+    textLayer.kind = LayerKind.TEXT;
+    textLayer.name = ($letter);
+    var text = textLayer.textItem;
+    text.size = ($bounds_h);
+    text.font = ($fontname);
+    text.justification = Justification.LEFT;
+    text.position = [($bounds_x),($bounds_y)+($bounds_h)];
+    text.contents = $letter;
+    app.activeDocument.activeLayer = textLayer;
+    app.activeDocument.selection.deselect();
+    var tx=($bounds_x),ty=($bounds_y),tw=($bounds_w),th=($bounds_h);
+    var x,y,w,h;
+    x=app.activeDocument.activeLayer.bounds[0].value;
+    y=app.activeDocument.activeLayer.bounds[1].value;
+    w=app.activeDocument.activeLayer.bounds[2].value-x;
+    h=app.activeDocument.activeLayer.bounds[3].value-y;
+    if (w > 0 && h > 0) {
+        app.activeDocument.activeLayer.translate(0-x,0-y);
+        app.activeDocument.activeLayer.resize(100*tw/w,100*th/h, AnchorPosition.TOPLEFT);
+        x=app.activeDocument.activeLayer.bounds[0].value;
+        y=app.activeDocument.activeLayer.bounds[1].value;
+        w=app.activeDocument.activeLayer.bounds[2].value-x;
+        h=app.activeDocument.activeLayer.bounds[3].value-y;
+        app.activeDocument.activeLayer.translate(tx-x,ty-y);
+        app.activeDocument.activeLayer.resize(100*tw/w,100*th/h, AnchorPosition.TOPLEFT);
+    } else app.echoToOE("FONT.LOADING");
+}
+var tryResizeScript = function() {
+    if (app.activeDocument.activeLayer.name.length == 1) {
+        app.activeDocument.selection.deselect();
+        var tx=($bounds_x),ty=($bounds_y),tw=($bounds_w),th=($bounds_h);
+        var x,y,w,h;
+        x=app.activeDocument.activeLayer.bounds[0].value;
+        y=app.activeDocument.activeLayer.bounds[1].value;
+        w=app.activeDocument.activeLayer.bounds[2].value-x;
+        h=app.activeDocument.activeLayer.bounds[3].value-y;
+        if (w > 0 && h > 0) {
+            app.activeDocument.activeLayer.translate(0-x,0-y);
+            app.activeDocument.activeLayer.resize(100*tw/w,100*th/h, AnchorPosition.TOPLEFT);
+            x=app.activeDocument.activeLayer.bounds[0].value;
+            y=app.activeDocument.activeLayer.bounds[1].value;
+            w=app.activeDocument.activeLayer.bounds[2].value-x;
+            h=app.activeDocument.activeLayer.bounds[3].value-y;
+            app.activeDocument.activeLayer.translate(tx-x,ty-y);
+            app.activeDocument.activeLayer.resize(100*tw/w,100*th/h, AnchorPosition.TOPLEFT);
+        } else app.echoToOE("FONT.LOADING");
+    }
+}
+
+var extractScript = function() {
+    try {
+        var sel = app.activeDocument.selection.bounds;
+    }
+    catch(e) {
+        var sel = null;
+        alert("No selection. Please select letter with Magic Wand tool.");
+    }
+    if (sel != null) {
+        // Extract selection bounds
+        app.echoToOE("SELECTION.BOUNDS:"
+        + sel[0].value + ","
+        + sel[1].value + ","
+        + sel[2].value + ","
+        + sel[3].value);
+
+        // Remember originally selected layer
+        var oldlayer = app.activeDocument.activeLayer;
+
+        // Create temporary new layer
+        app.activeDocument.activeLayer = app.activeDocument.layers[0];
+        var group = app.activeDocument.layerSets.add();
+        var layer = group.artLayers.add();
+
+        // Fill selection with white and black
+        app.activeDocument.selection.invert();
+        var white = new SolidColor();  
+        white.rgb.red = 255;  
+        white.rgb.green = 255;  
+        white.rgb.blue = 255;  
+        app.activeDocument.selection.fill(white);
+        app.activeDocument.selection.invert();
+        var black = new SolidColor();  
+        black.rgb.red = 0;  
+        black.rgb.green = 0;  
+        black.rgb.blue = 0;  
+        app.activeDocument.selection.fill(black);
+
+        // Extract image as BMP
+        app.activeDocument.saveToOE("bmp");
+
+        // Remove temporary layer and select originally selected layer
+        group.remove();
+        app.activeDocument.activeLayer = oldlayer;
+    }
+}
+var wrongLetterScript = function() {
+    alert("Enter lowercase letter a-z, uppercase letter A-Z or number 0-9.");
+}
+
+function executeScript(script, param) {
+    var s = (""+script).trim();
+    if (s.indexOf("function()") == 0) s = s.substr("function()".length).trim();
+    if (s.indexOf("{") == 0) s = s.substr(1).trim();
+    if (s.lastIndexOf("}") == s.length-1) s = s.slice(0,-1).trim();
+    if (param != null) {
+        for (var key of Object.keys(param)) {
+            s = s.replaceAll("$" + key, param[key]);
+        }
+    }
+    if (window.parent == window.self) alert("Error: Connection to Photopea failed.");
+    else window.parent.postMessage(s, "*");
+}
+
+window.addEventListener("message", onMessage);
+
+var running = false, _bounds = null, _ctrl = false, _letter = null, _arr = null, _arrletters = '';
+function onMessage(e) {
+    if (running && e.data instanceof ArrayBuffer) readBMP(new Uint8Array(e.data), _bounds, _letter);
+    else if (e.data == "done") { running = false; }
+    else if (e.data == "FONT.LOADING") {
+        window.setTimeout(function() {
+            executeScript(tryResizeScript,
+                { "bounds_x" : _bounds[0],
+                  "bounds_y" : _bounds[1],
+                  "bounds_w" : _bounds[2]-_bounds[0],
+                  "bounds_h" : _bounds[3]-_bounds[1]
+                });
+        }, 500);
+    } else if (e.data.indexOf("SELECTION.BOUNDS:") == 0) {
+        var b = e.data.split(":")[1].split(",");
+        if (b.length == 4) {
+            _bounds = b;
+            for (var i = 0; i < 4; i++) _bounds[i] = parseInt(_bounds[i]);
+            running = true;
+        }
+    }
+}
+
+function calctemp(size, getpixel, bounds) {
+    var output = [];
+    for (var i = 0; i < size*size; i++) output.push([]);
+    for (var y = bounds[1]; y < bounds[3]; y++) {
+        for (var x = bounds[0]; x < bounds[2]; x++) {
+            var oi = Math.floor((x-bounds[0]+0.5)/(bounds[2]-bounds[0])*size) + Math.floor((y-bounds[1]+0.5)/(bounds[3]-bounds[1])*size)*size;
+            output[oi].push(getpixel(x, y));
+        }
+    }
+    for (var i = 0; i < size*size; i++) {
+        if (output[i].length == 0) output[i] = getpixel(bounds[0]+Math.floor(((i % size)+0.5)/size*(bounds[2]-bounds[0])),
+                                                        bounds[1]+Math.floor(((((i / size) >> 0)+0.5) % size)/size*(bounds[3]-bounds[1])));
+        else output[i] = output[i].reduce((a, b) => a + b, 0) / output[i].length;
+        output[i] = output[i] == 0 ? 15 : (15 - Math.min(15, Math.max(0, Math.floor(1 + output[i] * 14))));
+    }
+    return output;
+}
+
+function insertLayer(letter, fontname, b) {
+    fontLoading = true;
+    executeScript(insertLayerScript,
+        { "letter" : '"'+letter+'"',
+          "fontname" : '"'+fontname+'"',
+          "bounds_x" : b[0],
+          "bounds_y" : b[1],
+          "bounds_w" : b[2]-b[0],
+          "bounds_h" : b[3]-b[1]
+        });
+}
+
+function readBMP(buff, bounds, sletter) {
+    var parent = document.getElementById("cont");
+    while (parent.firstChild) parent.removeChild(parent.lastChild);
+    var wait = document.createElement("div"); wait.className = "wait";
+    var spinner = document.createElement("div"); spinner.className = "spinner"; wait.appendChild(spinner);
+    var text = document.createElement("div"); text.className = "text"; text.appendChild(document.createTextNode("Please wait...")); wait.appendChild(text);
+    parent.appendChild(wait);
+
+    var bf = new Uint8Array(4), u32 = new Uint32Array(bf.buffer); u16 = new Uint16Array(bf.buffer);
+    var read_u32 = function(d,o) { for(var i=0; i<4; i++) bf[i]=d[o+i]; return u32[0]; }
+    var read_u16 = function(d,o) { for(var i=0; i<2; i++) bf[i]=d[o+i]; return u16[0]; }
+    var ioff = read_u32(buff, 10), w = read_u32(buff, 18), h = read_u32(buff, 22), bpp = read_u16(buff, 28);
+    if (bpp!=24 && bpp!=8 && bpp!=4 && bpp!=1) return;
+    var row = 4* Math.floor((bpp * w + 31) / 32);
+    var getpixel = function (x, y) {
+        if (x < 0 || y < 0 || x > w || y > h) return 0;
+        var j = ioff + (h - y - 1) * row + ((x * bpp)>>>3);
+        var k = (bpp<=8) ? (54 + 4*(bpp==1 ? (buff[j]>>>(7-  (x&7)))& 1 : bpp==4 ? (buff[j]>>>(4-4*(x&1)))&15 : buff[j])) : j;
+        return 1 - (buff[k] + buff[k+1] + buff[k+2]) / (255 * 3);
+    };
+    const size = 16;
+    var output = [];
+    output.push(calctemp(size, getpixel, bounds));
+    for (var j = 1; j < 9; j++) {
+        var b2 = [bounds[0],bounds[1],bounds[2],bounds[3]];
+        b2[((j-1)/2)>>0] += 1 - (((j - 1) % 2) * 2);
+        output.push(calctemp(size, getpixel, b2));
+    }
+    var script = document.createElement('script');
+    script.setAttribute('src', 'data/letter_'+sletter.charCodeAt(0)+'.js');
+    script.setAttribute('async', '');
+    script.onload = function () {
+        document.head.removeChild(script);
+        var w = 1600, h = 1072;
+        var cnv = document.createElement('canvas');
+        cnv.width = w; cnv.height = h;
+        var ctx2 = cnv.getContext("2d");
+        drawing = new Image();
+        drawing.src = 'data:image/png;base64,'+letter;
+        drawing.onload = function() {
+            ctx2.drawImage(drawing, 0, 0);
+            var data = ctx2.getImageData(0, 0, w, h).data;
+            var a = new Array(9*w*h/(size*size)).fill(0), p = 0;
+            for (var y = 0; y < h; y++) {
+                for (var x = 0; x < w; x++) {
+                    var index = 9 * (Math.floor(y / size) * (w / size) + Math.floor(x / size));
+                    var c = Math.floor((data[p]+data[p+1]+data[p+2])/51);
+                    var i = (x % size) + 16 * (y % size);
+                    for (var j = 0; j < 9; j++) a[index++] += Math.abs(c - output[j][i]) ** 2;
+                    p += 4;
+                }
+            }
+            if (!_ctrl) { _arr = new Array(w*h/(size*size)).fill(0); _arrletters = ""; }
+            _arrletters += sletter;
+            for (var i = 0; i < _arr.length; i++) {
+                var v = (225 * size * size);
+                for (var j = 0; j < 9; j++) v = Math.min(a[i*9+j], v);
+                _arr[i] += v;
+            }
+
+            var results = [], count = 20;
+            for (var i = 0; i < _arr.length; i++) {
+                const ai = (_arr[i] / (225 * size * size)) / _arrletters.length;
+                var fontindex = i;
+                if (fontindex >= fontlist.length) break;
+                if (results.length < count || ai < results[results.length - 1].err) {
+                    var target = null;
+                    for (var j = 0; j < results.length; j++) if (results[j].fontindex == fontindex) target = j;
+                    if (target != null) results[target].err = Math.min(results[target].err, ai);
+                    else results.push({fontindex:fontindex,err:ai});
+                    results.sort((a,b) => (a.err > b.err) ? 1 : ((b.err > a.err) ? -1 : 0));
+                    if (results.length > count) results.pop();
+                }
+            }
+
+            while (parent.firstChild) parent.removeChild(parent.lastChild);
+            for (var j = 0; j < results.length; j++) {
+                var fontname = fontlist[results[j].fontindex];
+                
+                var xp = results[j].fontindex % (w / size), yp = (results[j].fontindex / (w / size)) >> 0;
+                var previewCanvas = document.createElement('canvas');
+                var previewCtx = previewCanvas.getContext('2d');
+                previewCanvas.width = size;
+                previewCanvas.height = size;
+                var previewImageData = ctx2.getImageData(xp * size, yp * size, size, size);
+                for (var k = 0; k < size*size; k++) {
+                    previewImageData.data[k*4+3] = 255 - previewImageData.data[k*4];
+                    previewImageData.data[k*4+0] = previewImageData.data[k*4+1] = previewImageData.data[k*4+2] = 199;
+                }
+                previewCtx.putImageData(previewImageData, 0, 0);
+                var previewDataUrl = previewCanvas.toDataURL();
+                
+                var item = document.createElement("div");
+                item.className = "fbutton";
+                item.style.backgroundImage = "url('"+previewDataUrl+"')";
+                item.appendChild(document.createTextNode(fontname));
+                var percent = document.createElement("span");
+                percent.appendChild(document.createTextNode((100 * (1 - results[j].err)).toFixed(1) + "%"));
+                item.appendChild(percent);
+                item.setAttribute("onclick","insertLayer('"+sletter+"', '"+fontname+"', "+JSON.stringify(bounds)+");");
+                parent.appendChild(item);
+            }
+            document.getElementById("arrletters").innerText = _arrletters.length <= 1 ? "" : _arrletters;
+            document.getElementById("arrletters").title = _arrletters.length <= 1 ? null : "combined result for " + _arrletters.length + " letters";
+            parent.scrollTo(0, 0);
+        };
+    };
+    script.onerror = function () {
+        document.getElementById("cont").innerText = "";
+        alert("Error: File '"+script.src+"' not found.");
+    }
+    document.head.appendChild(script);
+}
+
+function find() {
+    _letter = document.getElementById('letter').value;
+    _ctrl = window.event.ctrlKey;
+    var letterok = (_letter.length == 1
+        && ((_letter[0] >= 'a' && _letter[0] <= 'z') ||
+            (_letter[0] >= 'A' && _letter[0] <= 'Z') ||
+            (_letter[0] >= '0' && _letter[0] <= '9')));
+    if (!letterok) executeScript(wrongLetterScript); else executeScript(extractScript);
+}
+function showkeyboard(visible) {
+    var k = document.getElementById('keyboard');
+    if (visible == null) visible = k.style.display == "none";
+    k.style.display = visible ? null : "none";
+    while (k.firstChild) k.removeChild(k.lastChild);
+    if (visible) {
+        var addbutton = function(code) {
+            var elem = document.createElement("button");
+            elem.appendChild(document.createTextNode(String.fromCharCode(code)));
+            elem.onclick = function() {
+                document.getElementById('letter').value = this.innerText;
+                showkeyboard();
+            }
+            if (String.fromCharCode(code) == document.getElementById('letter').value) elem.style.backgroundColor = "#252525";
+            k.appendChild(elem);
+        }
+        for (var i = 'a'.charCodeAt(0); i <= 'z'.charCodeAt(0); i++) addbutton(i);
+        for (var i = 'A'.charCodeAt(0); i <= 'Z'.charCodeAt(0); i++) addbutton(i);
+        for (var i = '0'.charCodeAt(0); i <= '9'.charCodeAt(0); i++) addbutton(i);
+    }
+    window.onresize();
+}
+window.onmousedown = function() {
+    document.getElementById('letter').focus();
+    document.getElementById('letter').blur();
+}
+window.onload = window.onresize = function() {
+    document.getElementById('results').style.height = Math.max(111,window.innerHeight - document.getElementById('results').getBoundingClientRect().top - 20) + "px";
+}
+
+</script>
+
   </head>
   <body>
     <div>
-      <p>Similar letter</p>
+      <p>To find font from Photopea with similar letter:</p>
+      <ol>
+      <li><div style="line-height:14px;">Select the letter with Magic Wand.<br/><span style="font-size:10px;">(it needs to be horizontal, rotate it if needed)</span></div></li>
+      <li style="ma"><div style="line-height:10px;">Enter the letter or number: <div style="display:inline-block;word-wrap:no-wrap;"><input type="text" id="letter" style="width: 3.3em;" onchange="showkeyboard(false);"></input><button onclick="showkeyboard();">...</button></div><br/><span style="font-size:10px;line-height:6px;vertical-align:top;">(a-z, A-Z and 0-9 are supported)</span></div><div id="keyboard" style="display:none;"></div></li>
+      <li>Click this button: <button id="findbutton" onclick="find();" title="CTRL+click to combine with previous result">Find Similar Letter</button></li>
+      <li>You can click font to insert as text layer.</li>
+      </ol>
+      <div id="results">
+        <span class="tab">Results</span><span id='arrletters'></span>
+        <div id="cont"></div>
+      </div>
+      
     </div>
   </body>
 </html>

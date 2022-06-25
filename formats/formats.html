@@ -114,7 +114,7 @@ function open(e) {
 function save(ext) {
     if (!_ready) return;
     var encoder = ext == "avif" ? avif_enc : jxl_enc, filename = "image." + ext, tab = "save" + ext + "tab";
-    var options = ext == "avif" ? { cqLevel: Math.round((100-parseInt(document.getElementById("avif_quality").value))*63/100), cqAlphaLevel: -1, denoiseLevel: 0, tileColsLog2: 0, tileRowsLog2: 0, speed: parseInt(document.getElementById("avif_speed").value), subsample: document.getElementById("avif_nochroma").checked ? 3 : 1, chromaDeltaQ: false, sharpness: 0, tune: 0 }
+    var options = ext == "avif" ? { cqLevel: Math.round((100-parseInt(document.getElementById("avif_quality").value))*63/100), cqAlphaLevel: -1, denoiseLevel: 0, tileColsLog2: 0, tileRowsLog2: 0, speed: parseInt(document.getElementById("avif_speed").value), subsample: document.getElementById("avif_lossless").checked || document.getElementById("avif_nochroma").checked ? 3 : 1, chromaDeltaQ: false, sharpness: 0, tune: 0 }
                                 : { effort: 10-parseInt(document.getElementById("jxl_speed").value), quality: parseInt(document.getElementById("jxl_quality").value), progressive: document.getElementById("jxl_progressive").checked, epf: -1, lossyPalette: false, decodingSpeedTier: 0, photonNoiseIso: 0, lossyModular: false };
     openloading("Saving \""+filename+"\"...");
     runScript("if (app.documents.length > 0) app.activeDocument.saveToOE('png'); else alert('No document opened.');", function(buffer) {

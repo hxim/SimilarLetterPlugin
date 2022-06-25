@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, initial-scale=1.0" />
+		<style>
+    body { background-color: #474747; user-select: none; touch-action: none !important; margin: 0; padding: 0; }
+    body, button, input, select, label { font-family: "Open Sans", Sans-Serif; font-size: 13px; color: #d5d5d5; vertical-align: top; overflow: hidden; }
+    label { line-height:21px; display: inline-block; margin: 2px 6px 0 0; }
+    input, select { padding: 3px; box-sizing: border-box; margin: 0 2px; }
+    input[type=checkbox] { width: unset; height: 26px; line-height: 26px; padding-right: 6px; }
+    select, input { background-color: #252525; border: 1px solid #252525; border-radius: 3px; transition: border 0.5s; }
+    input:not(:disabled):not(.button):hover, select:hover, input:not(:disabled):not(.button):focus, select:focus { border: 1px solid #3482f6; outline: none !important; }
+    hr { background-color: #000000; border:0; height: 1px; margin: 4px 0; }
+    .disabled { opacity: 0.5; pointer-events: none; }
+    a:not(.disabled) { cursor: pointer; }
+    .button { background-color: #606060; margin: 2px 0 0 1.5px; border-radius: 3px; border-top-width: 1px; border-top-color: rgba(255,255,255,0.15); border-bottom-width: 1px; border-bottom-color: rgba(0,0,0,0.6); border-left: 0px; border-right: 0px; padding: 2px 5px 3px 5px; font-size: 13px; overflow: hidden; text-overflow: ellipsis; cursor: pointer; }
+    .button:not(:disabled):hover { background-color: #6a6a6a;}
+    .button:disabled { opacity: 0.5; pointer-events: none; }
+    .page { padding: 6px; }
+    .page > div { margin-bottom: 6px; }
+    .bar { height: 26px; white-space: nowrap; font-size: 0; padding: 3px; position: relative;}
+    .bar a { display: inline-block; line-height: 0; border-radius: 3px; padding: 1px; margin: 0 2px 0 0; vertical-align: top; position: relative; }
+    .bar a.hidden { display: none; }
+    .bar a:hover:not(.disabled) { background-color: rgba(0,0,0,0.25); }
+    .bar a > img { filter:invert(0.78);padding: 2px; }
+    .bar button { margin-right: 6px; display: inline-block; padding: 2px 5px 3px 5px; border-radius: 3px; text-align: center; white-space: nowrap; background-color: #474747; border-width: 0;}
+    .bar button.selected { background-color: #252525; }
+    .bar button:not(.selected):hover { background-color: rgba(0,0,0,0.25); }
+    .win { position: absolute; z-index: 10; background-color: #474747; top: 50%; left: 50%; transform: translate(-50%, -50%); box-shadow: 0px 4px 30px rgba(0,0,0,0.25); display: none; border-radius: 6px; }
+    .win > div.head { border-top-width: 1px; border-top-color: rgba(255,255,255,0.15); border-bottom-width: 1px; border-bottom-color: rgba(0,0,0,0.6); height: 30px; font-size: 1.15em; background: linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.25) 100%); border-top-left-radius: 6px; border-top-right-radius: 6px; }
+    .win > div.head span.label { display: inline-block; padding: 0.3em 0.5em; font-weight: bold; }
+    .win > div.head span.cross { cursor: pointer; display: inline-block; background-image: url(data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjIiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgdmlld0JveD0iMCAwIDI1NiAyNTYiIHdpZHRoPSIyNTYiIGhlaWdodD0iMjU2Ij48cGF0aCAgZD0ibTMyIDBsMjI0IDIyNC0zMiAzMi0yMjQtMjI0em0yMjQgMzJsLTIyNCAyMjQtMzItMzIgMjI0LTIyNHoiLz48L3N2Zz4=); background-size: 10px 10px; background-repeat: no-repeat; background-position: center; width: 30px; height: 30px; font-size: 1.3em; position: absolute; right: 0; filter: invert(0.78); }
+    .win > div.body { line-height: 30px; padding: 8px 10px; overflow-y: auto; min-width: 200px; }
+    .win > div.body > input.button { margin-top: 5px; width: calc(100% - 3px); }
+    .dpoint { position:absolute; top: 0; left: 0; width: 8px; height:16px; outline: 1px solid rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.8); box-shadow: 0px 1px 1px rgba(0,0,0,0.5), inset 1px 1px 0px rgba(255,255,255,0.4), inset -1px -1px 0px rgba(0,0,0,0.4); border-radius: 0 0 50% 50%; }
+    .dpoint:hover { outline: 4px solid rgba(0,0,0,0.4); }
+    #cont { position: absolute; left: 6px; top: 38px; right: 4px; bottom: 6px; overflow-y: scroll; scrollbar-color: #222222 rgba(0,0,0,0.2); scrollbar-width: thin; font-size: 0px; }
+    #cont .item { background-color: #606060; width: 90px; height: 70px; cursor: pointer; display: inline-block; margin: 0 3px 3px 0; position: relative; }
+    #cont .item:hover { background-color: #6a6a6a; }
+    #cont .item > div { width: 80px; height: 60px; margin: 5px 5px; background: url('gallery.jpg'); }
+    #cont::-webkit-scrollbar { width: 10px; background: rgba(0,0,0,0.2); }
+    #cont::-webkit-scrollbar-thumb { background: #222222; margin: 2px; }            
+    
+    .button { background-color: #606060; margin: 2px 0 0 1.5px; border-radius: 3px; border-top-width: 1px; border-top-color: rgba(255,255,255,0.15); border-bottom-width: 1px; border-bottom-color: rgba(0,0,0,0.6); 
+            border-left: 0px; border-right: 0px; padding: 7px 20px 8px 20px; font-size: 13px; overflow: hidden; text-overflow: ellipsis; margin-top: 8px; }
+    .button:not(:disabled):hover { background-color: #6a6a6a;}
+    .button:disabled { opacity: 0.5; pointer-events: none; }
+    #loading > .wait { padding: 0; text-align: center; margin: 0; position: absolute; top: 50%; left: 50%; width: 90%; transform: translate(-50%, -50%);}
+    #loading > .wait > .text { padding-top: 3px; }
+    .spinner {  margin: auto; border: 3px solid #5d5d5d; border-radius: 50%; border-top: 3px solid #c7c7c7; width: 14px; height: 14px; animation: spinner 2s linear infinite; }
+    @keyframes spinner { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    
+        </style>
+    <script>
+    
+window.addEventListener("message", onMessage);
+var _running = false, _callback = null, _buffer = null, _ready = false;
+function onMessage(e) {
+    if (_running && e.data instanceof ArrayBuffer) _buffer = e.data;
+    else if (_running && e.data == "done") {
+        var callback = _callback, buffer = _buffer;
+        running = false; _callback = null; _buffer = null;
+        if (callback != null) callback(buffer);
+    }
+}
+function runScript(s, callback) {
+    _running = true;
+    _callback = callback;
+    window.parent.postMessage(s, "*");
+}
+function base64(buffer) { return btoa(new Uint8Array(buffer).reduce((data, byte) => data + String.fromCharCode(byte), '')); }
+function open(e) {
+    if (!_ready) return;
+    var div = document.createElement('div');
+    div.style.display = "none";
+    var input = document.createElement('input');
+    input.hidden = true;
+    input.type = "file";
+    div.appendChild(input);
+    document.body.appendChild(div);
+    input.onchange = function() {
+        openloading("Opening \""+this.files[0].name+"\"...");
+        var r=new FileReader();
+        r.readAsArrayBuffer(this.files[0]);
+        r.onload=function() {
+            const image = r.result, assmart = document.getElementById("smart").checked ? "true" : "false";
+            var decoder = null;
+            var c = image.byteLength > 0 ? new Uint8Array(image)[0] : null;
+            if (image.byteLength > 0 && c == 137) window.parent.postMessage("app.open('data:image/png;base64," + base64(image) + "',null,"+assmart+");", "*");
+            else if (image.byteLength > 0 && c == 0) decoder = avif_dec;
+            else if (image.byteLength > 0) decoder = jxl_dec;
+            if (decoder != null) decoder().then(async module => {
+                try {
+                    const imageData = module.decode(image);    
+                    const canvas = document.createElement('canvas');
+                    canvas.width = imageData.width;
+                    canvas.height = imageData.height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.putImageData(imageData, 0, 0);
+                    runScript("app.open('" + canvas.toDataURL("image/png") + "',null,"+assmart+");");
+                } catch(e) {
+                    alert("Invalid file.");
+                }
+                opentab("opentab");
+            }); else opentab("opentab");
+        };
+        r.onabort = r.onerror = function() { opentab("opentab"); }
+    };
+    input.click();
+    document.body.removeChild(div);
+}
+
+function save(ext) {
+    if (!_ready) return;
+    var encoder = ext == "avif" ? avif_enc : jxl_enc, filename = "image." + ext, tab = "save" + ext + "tab";
+    var options = ext == "avif" ? { cqLevel: Math.round((100-parseInt(document.getElementById("avif_quality").value))*63/100), cqAlphaLevel: -1, denoiseLevel: 0, tileColsLog2: 0, tileRowsLog2: 0, speed: parseInt(document.getElementById("avif_speed").value), subsample: document.getElementById("avif_nochroma").checked ? 3 : 1, chromaDeltaQ: false, sharpness: 0, tune: 0 }
+                                : { effort: 10-parseInt(document.getElementById("jxl_speed").value), quality: parseInt(document.getElementById("jxl_quality").value), progressive: document.getElementById("jxl_progressive").checked, epf: -1, lossyPalette: false, decodingSpeedTier: 0, photonNoiseIso: 0, lossyModular: false };
+    openloading("Saving \""+filename+"\"...");
+    runScript("if (app.documents.length > 0) app.activeDocument.saveToOE('png'); else alert('No document opened.');", function(buffer) {
+        const img = document.createElement('img');
+        img.src = "data:image/png;base64,"+ base64(buffer);
+        img.onload = function() {
+            const canvas = document.createElement('canvas');
+            [canvas.width, canvas.height] = [img.width, img.height];
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0);
+            const image = ctx.getImageData(0, 0, img.width, img.height);
+            if (encoder != null) encoder().then(async module => {
+                try {
+                    const result = module.encode(image.data, image.width, image.height, options);
+                    var a = document.createElement("a");
+                    a.setAttribute("href", "data:image/" + ext + ";base64," + base64(result.buffer));
+                    a.setAttribute("download", filename);
+                    a.style.display = 'none';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                } catch(e) {
+                    alert("Error saving file.");
+                }    
+                opentab(tab);
+            }); else opentab(tab);
+        }
+        img.onerror = function() { opentab(tab); }
+    });
+}
+
+function setLossless(value, ext) {
+    var idQuality = ext + "_quality", idLossless = ext + "_lossless";
+    var elQuality = document.getElementById(idQuality), elLossless = document.getElementById(idLossless);
+    if (typeof value === "boolean") elQuality.value = value ? 100 : (ext == "jxl" ? 75 : 48);
+    else elLossless.checked = (parseInt(value) == 100);
+}
+
+function opentab(id) {
+    document.getElementById("loading").style.display = "none";
+    document.getElementById("opentab").className = null;
+    document.getElementById("savejxltab").className = null;
+    document.getElementById("saveaviftab").className = null;
+    document.getElementById(id).className = "selected";
+    document.getElementById("pageopentab").style.display = "none";
+    document.getElementById("pagesavejxltab").style.display = "none";
+    document.getElementById("pagesaveaviftab").style.display = "none";
+    document.getElementById("page"+id).style.display = "block";
+}
+function openloading(text) {
+    document.getElementById("loadingtext").innerText = text;
+    document.getElementById("loading").style.display = "block";
+    document.getElementById("pageopentab").style.display = "none";
+    document.getElementById("pagesavejxltab").style.display = "none";
+    document.getElementById("pagesaveaviftab").style.display = "none";
+}
+
+function btn(button, event) {
+    var obj = typeof button === "object";
+    var id = obj ? button.id : button;
+    if (obj && button.className == "disabled") return;
+    switch (id) {
+        case "open" : open(event); break;
+        case "savejxl" : save("jxl"); break;
+        case "saveavif" : save("avif"); break;
+        case "opentab":
+        case "savejxltab":
+        case "saveaviftab": opentab(id); break;
+    }
+}
+
+window.onload = function() {
+    var script = document.createElement('script');
+    script.setAttribute('src', 'modules.js');
+    script.setAttribute('async', '');
+    script.onload = function () { _ready = true; opentab("opentab"); };
+    script.onerror = function () { alert("Error: File '"+script.src+"' not found."); }
+    document.head.appendChild(script);
+}
+    </script>
+  </head>
+  <body>
+    <div class="bar">
+    <button id="opentab" class="selected" onclick="btn(this);">Open JXL or AVIF</button>
+    <button id="savejxltab" onclick="btn(this);">Save JXL</button>
+    <button id="saveaviftab" onclick="btn(this);">Save AVIF</button>
+    <hr/>
+    </div>
+    <div id="loading">
+    <div class="wait">
+    <div class="spinner"></div>
+    <div id="loadingtext" class="text">Loading...</div>
+    </div>
+    </div>
+    <div id="pageopentab" style="display:none;" class="page">
+        <div><input type="checkbox" id="smart"><label for="smart" style="padding-left:4px;">Insert as Smart Object</label></div>
+        <input type="button" value="Open JXL or AVIF image" id="open" onclick="btn(this);" class="button"/>
+    </div>    
+    <div id="pagesavejxltab" style="display:none;" class="page">
+        <div><label for="jxl_quality" style="width: 50px;">Quality:</label><input type="number" id="jxl_quality" min="0" max="100" value="75" step="1" style="width: 63px;" onchange="setLossless(this.value,'jxl')"> <input type="checkbox" id="jxl_lossless" onchange="setLossless(this.checked,'jxl')"><label for="jxl_lossless" style="padding-left:4px;">Lossless</label></div>
+        <div><label for="jxl_speed" style="width:50px;">Speed:</label><select id="jxl_speed" style="width:150px;"><option value="0">Slowest (Best)</option><option value="3" selected>Slow (Good)</option><option value="5">Average</option><option value="7">Fast (Bad)</option><option value="10">Fastest (Worst)</option></select></div>
+        <div><input type="checkbox" id="jxl_progressive"><label for="jxl_progressive" style="padding-left:4px;">Save as Progressive JXL</label></div>
+        <input type="button" value="Save as JXL" id="savejxl" onclick="btn(this);" class="button"/>
+    </div>
+    <div id="pagesaveaviftab" style="display:none;" class="page">
+        <div><label for="avif_quality" style="width: 50px;">Quality:</label><input type="number" id="avif_quality" min="0" max="100" value="48" step="1" style="width: 63px;" onchange="setLossless(this.value,'avif')"> <input type="checkbox" id="avif_lossless" onchange="setLossless(this.checked,'avif')"><label for="avif_lossless" style="padding-left:4px;">Lossless</label></div>
+        <div><label for="avif_speed" style="width:50px;">Speed:</label><select id="avif_speed" style="width:150px;"><option value="0">Slowest (Best)</option><option value="3" selected>Slow (Good)</option><option value="5">Average</option><option value="7">Fast (Bad)</option><option value="10">Fastest (Worst)</option></select></div>
+        <div><input type="checkbox" id="avif_nochroma"><label for="avif_nochroma" style="padding-left:4px;">Disable chroma subsampling</label></div>
+        <input type="button" value="Save as AVIF" id="saveavif" onclick="btn(this);" class="button"/>
+    </div>
+  </body>
+</html>

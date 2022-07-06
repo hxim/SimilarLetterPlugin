@@ -100,6 +100,10 @@ function doOCR() {
             }
             var imgUrl = "data:image/png;base64," + btoa([].reduce.call(new Uint8Array(buffer),function(p,c){return p+String.fromCharCode(c)},''));
             var worker = new Tesseract.createWorker({
+  workerPath: 'worker.min.js',
+  langPath: 'lang',
+  corePath: 'tesseract-core.wasm.js',
+
                 logger: m => openloading(m.status.charAt(0).toUpperCase() + m.status.slice(1) + "..." + (m.progress > 0 && m.progress < 1 ? " (" + Math.floor(100*m.progress) +"%)" : "")),
                 errorHandler: m => {  openloading(""); alert(m); }
             });

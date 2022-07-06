@@ -118,8 +118,9 @@ var extractScript = function() {
         + sel[2].value + ","
         + sel[3].value);
 
-        // Remember originally selected layer
+        // Remember originally selected layer and history state
         var oldlayer = app.activeDocument.activeLayer;
+        var oldHistoryState = app.activeDocument.activeHistoryState;
 
         // Create temporary new layer
         app.activeDocument.activeLayer = app.activeDocument.layers[0];
@@ -143,9 +144,10 @@ var extractScript = function() {
         // Extract image as BMP
         app.activeDocument.saveToOE("bmp");
 
-        // Remove temporary layer and select originally selected layer
+        // Remove temporary layer and select originally selected layer, history state
         group.remove();
         app.activeDocument.activeLayer = oldlayer;
+        app.activeDocument.activeHistoryState = oldHistoryState;
     }
 }
 var wrongLetterScript = function() {

@@ -21,7 +21,7 @@
     .spinner {  margin: auto; border: 3px solid #5d5d5d; border-radius: 50%; border-top: 3px solid #c7c7c7; width: 14px; height: 14px; animation: spinner 2s linear infinite; }
     @keyframes spinner { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 </style>
-<script src="https://unpkg.com/tesseract.js@2.0.0/dist/tesseract.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/tesseract.js@2.1.5/dist/tesseract.min.js" crossorigin="anonymous"></script>
 <script>
 
 window.addEventListener("message", onMessage);
@@ -71,50 +71,53 @@ function addTextLayer() {
     var script = "var d = app.activeDocument;d.activeLayer = d.layers[0];var nl = d.layers.add();nl.move(d.layers[0], ElementPlacement.PLACEBEFORE);nl.kind = LayerKind.TEXT;nl.name = 'Text layer';var ti = nl.textItem;ti.size = 24;var c = new SolidColor();c.rgb.red = 0;c.rgb.green = 0;c.rgb.blue = 0;ti.color = c;ti.font = 'DejaVuSans';ti.justification = Justification.LEFT;ti.contents = '{text}';ti.position = [{x}, {y}];d.activeLayer = nl;";
     runScript(script.replaceAll("{x}",x).replaceAll("{y}",y).replaceAll("{text}",text.replaceAll("\n","\\n").replaceAll("'","'+\"'\"+")));
 }
-
+function checkIndexedDB(func) {
+    var indexedDB = (window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB);
+    var request = indexedDB.open('indexedDB_check',1);
+    request.onsuccess = function() { request.close(); func(); };
+    request.onerror = function() { alert(request.error); };
+}
 function doOCR() {
-    function done(rectangle, text) {
-        document.getElementById("imsize").innerText = rectangle.width + " x " + rectangle.height;
-        document.getElementById("selpos").innerText = rectangle.left + ", " + rectangle.top;
-        document.getElementById("text").value = text;
-    }
+    checkIndexedDB(function() {
+        function done(rectangle, text) {
+            document.getElementById("imsize").innerText = rectangle.width + " x " + rectangle.height;
+            document.getElementById("selpos").innerText = rectangle.left + ", " + rectangle.top;
+            document.getElementById("text").value = text;
+        }
 
-    var s = (""+scriptExtractSelection).trim();
-    if (s.indexOf("function()") == 0) s = s.substr("function()".length).trim();
-    if (s.indexOf("{") == 0) s = s.substr(1).trim();
-    if (s.lastIndexOf("}") == s.length-1) s = s.slice(0,-1).trim();
-    runScript(s, function(data) {
-            var rectangle = null, buffer = null;
-            if (data.length == 2 && data[0].indexOf("SELECTION.BOUNDS:") == 0) {
-                var b = data[0].split(":")[1].split(",");
-                if (b.length == 4) {
-                    for (var i = 0; i < 4; i++) b[i] = parseInt(b[i]);
-                    rectangle = { left: b[0], top: b[1], width: b[2]-b[0], height: b[3]-b[1] };
+        var s = (""+scriptExtractSelection).trim();
+        if (s.indexOf("function()") == 0) s = s.substr("function()".length).trim();
+        if (s.indexOf("{") == 0) s = s.substr(1).trim();
+        if (s.lastIndexOf("}") == s.length-1) s = s.slice(0,-1).trim();
+        runScript(s, function(data) {
+                var rectangle = null, buffer = null;
+                if (data.length == 2 && data[0].indexOf("SELECTION.BOUNDS:") == 0) {
+                    var b = data[0].split(":")[1].split(",");
+                    if (b.length == 4) {
+                        for (var i = 0; i < 4; i++) b[i] = parseInt(b[i]);
+                        rectangle = { left: b[0], top: b[1], width: b[2]-b[0], height: b[3]-b[1] };
+                    }
+                    buffer = data[1];
                 }
-                buffer = data[1];
-            }
-            if (rectangle == null || !(buffer instanceof ArrayBuffer && buffer.byteLength !== undefined)) return;
-            if (!(window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB)) {
-                alert("Error: Your browser does not support IndexedDB.");
-                return;
-            }
-            var imgUrl = "data:image/png;base64," + btoa([].reduce.call(new Uint8Array(buffer),function(p,c){return p+String.fromCharCode(c)},''));
-            var worker = new Tesseract.createWorker({
-                logger: m => openloading(m.status.charAt(0).toUpperCase() + m.status.slice(1) + "..." + (m.progress > 0 && m.progress < 1 ? " (" + Math.floor(100*m.progress) +"%)" : "")),
-                errorHandler: m => {  openloading(""); alert(m); }
-            });
-            (async () => {
-                
-                await worker.load();
-                await worker.loadLanguage('eng');
-                await worker.initialize('eng');
-                const { data: { text } } = await worker.recognize(imgUrl, { rectangle });
-                await worker.terminate();
+                if (rectangle == null || !(buffer instanceof ArrayBuffer && buffer.byteLength !== undefined)) return;
+                var imgUrl = "data:image/png;base64," + btoa([].reduce.call(new Uint8Array(buffer),function(p,c){return p+String.fromCharCode(c)},''));
+                var worker = new Tesseract.createWorker({
+                    logger: m => openloading(m.status.charAt(0).toUpperCase() + m.status.slice(1) + "..." + (m.progress > 0 && m.progress < 1 ? " (" + Math.floor(100*m.progress) +"%)" : "")),
+                    errorHandler: m => {  openloading(""); alert(m); }
+                });
+                (async () => {
+                    
+                    await worker.load();
+                    await worker.loadLanguage('eng');
+                    await worker.initialize('eng');
+                    const { data: { text } } = await worker.recognize(imgUrl, { rectangle });
+                    await worker.terminate();
 
-                openloading("");
-                done(rectangle, text);
-            })();                
+                    openloading("");
+                    done(rectangle, text);
+                })();                
 
+        });
     });
 }
 

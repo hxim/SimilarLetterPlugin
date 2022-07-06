@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, initial-scale=1.0" />
+<style>
+    * { border-style: solid; border-width: 0; }
+    body { background-color: #474747; user-select: none; margin: 0; padding: 0; }
+    body, input, select, label, textarea { font-family: "Open Sans", Sans-Serif; font-size: 13px; color: #d5d5d5; vertical-align: top; overflow: hidden; }
+    label { line-height:21px; display: inline-block; margin: 2px 6px 0 0; }
+    input, select { padding: 3px; box-sizing: border-box; margin: 0 2px; }
+    textarea { margin: 0 0 4px 0; background-color: #252525; border-radius: 3px; width: 100%; box-sizing: border-box; padding: 4px; resize: both; }
+    input[type=checkbox] { height: 26px; line-height: 26px; padding-right: 6px; }
+    select, input { background-color: #252525; border: 1px solid #252525; border-radius: 3px; transition: border 0.5s; }
+    input:not(:disabled):not(.button):hover, select:not(:disabled):hover { border: 1px solid #3482f6; outline: none !important; }
+    .button { background-color: #606060; margin: 8px 0 0 1.5px; border-radius: 3px; border-top-width: 1px; border-top-color: rgba(255,255,255,0.15); border-bottom-width: 1px; border-bottom-color: rgba(0,0,0,0.6); border-left: 0px; border-right: 0px; padding: 7px 10px 8px 10px; font-size: 13px; overflow: hidden; text-overflow: ellipsis; cursor: pointer; }
+    .button:not(:disabled):hover { background-color: #6a6a6a;}
+    .button:disabled { opacity: 0.5; pointer-events: none; }
+    .page { padding: 6px; }
+    .page > div { margin-bottom: 6px; }
+    .spinner {  margin: auto; border: 3px solid #5d5d5d; border-radius: 50%; border-top: 3px solid #c7c7c7; width: 14px; height: 14px; animation: spinner 2s linear infinite; }
+    @keyframes spinner { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+</style>
+<script src='https://unpkg.com/tesseract.js@v2.1.0/dist/tesseract.min.js'></script>
+<script>
+
+window.addEventListener("message", onMessage);
+var _running = false, _callback = null, _data = [];
+var _color = {r:0,g:0,b:0}, _ppcolor = "", _ppimage = "";
+function onMessage(e) {
+    if (_running && e.data == "done") {
+        var callback = _callback, data = _data;
+        _callback = null; _data = [];
+        if (callback != null) callback(data);
+        _running = false; 
+    } else if (_running && (e.data instanceof ArrayBuffer || typeof e.data === 'string')) _data.push(e.data);
+}    
+function runScript(s, callback) {
+    if (_running) return;
+    _running = true;
+    _callback = callback;
+    window.parent.postMessage(s, "*");
+}
+
+function openloading(text) {
+    document.getElementById("loadingtext").innerText = text;
+    document.getElementById("loading").style.display = text.length == 0  ? "none" : "block";
+    document.getElementById("page").style.display = text.length == 0 ? "block" : "none";
+}
+const scriptExtractSelection = function() {
+    var message = "No selection. Please make selection in Photopea.";
+    try {
+        var sel = null;
+        if (app.documents.length > 0) sel = app.activeDocument.selection.bounds;
+    }
+    catch(e) {
+        var sel = null;
+        app.echoToOE("SELECTION.BOUNDS:0,0,"+app.activeDocument.width+","+app.activeDocument.height);
+        app.activeDocument.saveToOE("png");
+    }
+    if (sel != null) {
+        app.echoToOE("SELECTION.BOUNDS:"+sel[0].value+","+sel[1].value+","+sel[2].value+","+sel[3].value);
+        app.activeDocument.saveToOE("png");
+    }
+}
+function addTextLayer() {
+    var left = document.getElementById("selpos").innerText.indexOf(",") >= 0 ? parseInt(document.getElementById("selpos").innerText.split(",")[0].trim()) : 0;
+    var top = document.getElementById("selpos").innerText.indexOf(",") >= 0 ? parseInt(document.getElementById("selpos").innerText.split(",")[1].trim()) : 0;
+    var text = document.getElementById("text").value;
+    var x = left; y = top + 24;
+    var script = "var d = app.activeDocument;d.activeLayer = d.layers[0];var nl = d.layers.add();nl.move(d.layers[0], ElementPlacement.PLACEBEFORE);nl.kind = LayerKind.TEXT;nl.name = 'Text layer';var ti = nl.textItem;ti.size = 24;var c = new SolidColor();c.rgb.red = 0;c.rgb.green = 0;c.rgb.blue = 0;ti.color = c;ti.font = 'DejaVuSans';ti.justification = Justification.LEFT;ti.contents = '{text}';ti.position = [{x}, {y}];d.activeLayer = nl;";
+    runScript(script.replaceAll("{x}",x).replaceAll("{y}",y).replaceAll("{text}",text.replaceAll("\n","\\n").replaceAll("'","'+\"'\"+")));
+}
+
+function doOCR() {
+    function done(rectangle, text) {
+        document.getElementById("imsize").innerText = rectangle.width + " x " + rectangle.height;
+        document.getElementById("selpos").innerText = rectangle.left + ", " + rectangle.top;
+        document.getElementById("text").value = text;
+    }
+
+    var s = (""+scriptExtractSelection).trim();
+    if (s.indexOf("function()") == 0) s = s.substr("function()".length).trim();
+    if (s.indexOf("{") == 0) s = s.substr(1).trim();
+    if (s.lastIndexOf("}") == s.length-1) s = s.slice(0,-1).trim();
+    runScript(s, function(data) {
+            var rectangle = null, buffer = null;
+            if (data.length == 2 && data[0].indexOf("SELECTION.BOUNDS:") == 0) {
+                var b = data[0].split(":")[1].split(",");
+                if (b.length == 4) {
+                    for (var i = 0; i < 4; i++) b[i] = parseInt(b[i]);
+                    rectangle = { left: b[0], top: b[1], width: b[2]-b[0], height: b[3]-b[1] };
+                }
+                buffer = data[1];
+            }
+            if (rectangle == null || !(buffer instanceof ArrayBuffer && buffer.byteLength !== undefined)) return;
+            if (!(window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB)) {
+                alert("Error: Your browser does not support IndexedDB.");
+                return;
+            }
+            var imgUrl = "data:image/png;base64," + btoa([].reduce.call(new Uint8Array(buffer),function(p,c){return p+String.fromCharCode(c)},''));
+            var worker = new Tesseract.createWorker({
+                logger: m => openloading(m.status.charAt(0).toUpperCase() + m.status.slice(1) + "..." + (m.progress > 0 && m.progress < 1 ? " (" + Math.floor(100*m.progress) +"%)" : "")),
+                errorHandler: m => {  openloading(""); alert(m); }
+            });
+            (async () => {
+                
+                await worker.load();
+                await worker.loadLanguage('eng');
+                await worker.initialize('eng');
+                const { data: { text } } = await worker.recognize(imgUrl, { rectangle });
+                await worker.terminate();
+
+                openloading("");
+                done(rectangle, text);
+            })();                
+
+    });
+}
+
+
+
+
+
+  </script>
+  </head>
+  <body>
+    <div id="loading" style="display:none;"><div style="padding:0;text-align:center;margin:0;position:absolute;top:50%;left:50%;width:90%;transform:translate(-50%,-50%);"><div class="spinner"></div><div id="loadingtext" style="padding-top:3px;"></div></div></div>
+    <div id="page" class="page">
+        <div><label style="width:120px;">Image Size:</label><label id="imsize"></label></div>
+        <div><label style="width:120px;">Selected Position:</label><label id="selpos"></label></div>
+        <div><label style="width:120px;">English Text:</label></div>
+        <div>
+            <textarea id="text" style="width:275px;height:120px;"></textarea>
+        </div>
+        <input type="button" value="Start OCR" onclick="doOCR();" class="button" style="width:95px;"/>
+        <input type="button" value="Insert Text Layer" onclick="addTextLayer();" class="button" style="width:175px;"/>
+    </div>
+  </body>
+</html>

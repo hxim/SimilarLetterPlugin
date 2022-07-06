@@ -74,7 +74,7 @@ function addTextLayer() {
 function checkIndexedDB(func) {
     var indexedDB = (window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB);
     var request = indexedDB.open('indexedDB_check',1);
-    request.onsuccess = function() { request.close(); func(); };
+    request.onsuccess = function() { request.result.close(); func(); };
     request.onerror = function() { alert(request.error); };
 }
 function doOCR() {

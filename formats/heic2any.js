@@ -238,12 +238,8 @@ function heic2any(ref) {
                 }); }));
             })
                 .then(function (blobs) {
-                if (toType === "image/gif") {
+                if (multiple && blobs.length > 1) {
                     return Promise.all(blobs.map(function (blob) { return utils.blobToDataURL(blob); }));
-                }
-                else if (multiple) {
-                    resolve(blobs);
-                    return [""];
                 }
                 else {
                     resolve(blobs[0]);
@@ -251,7 +247,7 @@ function heic2any(ref) {
                 }
             })
                 .then(function (dataURIs) {
-                if (toType === "image/gif" && dataURIs) {
+                if (dataURIs) {
                     return utils.imagesToGif({
                         images: dataURIs,
                         interval: gifInterval,
@@ -262,7 +258,7 @@ function heic2any(ref) {
                 return "";
             })
                 .then(function (resultingGif) {
-                if (toType === "image/gif" && resultingGif) {
+                if (resultingGif) {
                     var blob = utils.dataURItoBlob(resultingGif);
                     if (typeof blob === "string") {
                         reject(utils.error(blob));

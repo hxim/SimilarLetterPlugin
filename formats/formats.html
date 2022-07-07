@@ -104,7 +104,7 @@ function open(e) {
                 if (isheic) {
                     var loadHeicImage = function()  {
                         var blob = new Blob([image]);
-                        heic2any({ blob, toType: "image/png", multiple: true, gifInterval: 0.1 }).then((result) => {
+                        heic2any({ blob, toType: "image/png", quality: 1.0, multiple: true, gifInterval: 0.1 }).then((result) => {
                             const r2 = new FileReader();
                             r2.onload=function() {
                                 runScript("app.open('" + r2.result + "',null,"+assmart+");");

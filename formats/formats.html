@@ -70,6 +70,15 @@ function runScript(s, callback) {
     window.parent.postMessage(s, "*");
 }
 function base64(buffer) { return btoa(new Uint8Array(buffer).reduce((data, byte) => data + String.fromCharCode(byte), '')); }
+function imageDataToDataURL(imageData) {
+    const canvas = document.createElement('canvas');
+    canvas.width = imageData.width;
+    canvas.height = imageData.height;
+    const ctx = canvas.getContext('2d');
+    ctx.putImageData(imageData, 0, 0);
+    return canvas.toDataURL("image/png");
+}
+
 function open(e) {
     if (!_ready) return;
     var div = document.createElement('div');
@@ -85,21 +94,49 @@ function open(e) {
         r.readAsArrayBuffer(this.files[0]);
         r.onload=function() {
             const image = r.result, assmart = document.getElementById("smart").checked ? "true" : "false";
-            var decoder = null;
-            var c = image.byteLength > 0 ? new Uint8Array(image)[0] : null;
-            if (image.byteLength > 0 && c == 137) window.parent.postMessage("app.open('data:image/png;base64," + base64(image) + "',null,"+assmart+");", "*");
-            else if (image.byteLength > 0 && c == 0) decoder = avif_dec;
-            else if (image.byteLength > 0) decoder = jxl_dec;
+            var decoder = null, hdr = "";
+            const hdr8 = new Uint8Array(image);
+            for (var i = 0; i <  Math.min(64, hdr8.byteLength); i++) hdr += String.fromCharCode(hdr8[i]);
+            if (hdr.length >= 4 && hdr.substr(0,4) == "\x89PNG") window.parent.postMessage("app.open('data:image/png;base64," + base64(image) + "',null,"+assmart+");", "*");
+            else if (hdr.length >= 12 && hdr.substr(0,3) == "\0\0\0" && hdr.charCodeAt(3) < 64 && hdr.charCodeAt(3) % 4 == 0 && hdr.substr(4,4) == "ftyp") {
+                var isheic = false, heiclist = ["heic","heim","heis","heix","hevc","hevm","hevs"];
+                for (var i = 0; i < hdr.charCodeAt(3) / 4; i++) if ((i == 2 || i > 3) && heiclist.indexOf(hdr.substr(4*i,4)) >= 0) isheic = true;
+                if (isheic) {
+                    var loadHeicImage = function()  {
+                        var blob = new Blob([image]);
+                        heic2any({ blob }).then((result) => {
+                            const r2 = new FileReader();
+                            r2.onload=function() {
+                                runScript("app.open('" + r2.result + "',null,"+assmart+");");
+                                opentab("opentab");
+                            }
+                            r2.onabort = r2.onerror = function() { opentab("opentab"); }
+                            r2.readAsDataURL(result);
+                        })
+                        .catch((e) => {
+                            console.log(e.message);
+                            alert("Invalid file.");
+                            opentab("opentab");
+                        });
+                    }
+                    if (typeof heic2any == "undefined") {
+                        var script = document.createElement('script');
+                        script.setAttribute('src', 'heic2any.js');
+                        script.setAttribute('async', '');
+                        script.onload = function() { loadHeicImage(); };
+                        script.onerror = function() { alert("Error: File '"+script.src+"' not found."); opentab("opentab"); }
+                        document.head.appendChild(script);
+                    } else loadHeicImage();
+                    return;
+                } else decoder = avif_dec;
+            } else if (image.byteLength > 0) decoder = jxl_dec;
+
             if (decoder != null) decoder().then(async module => {
                 try {
-                    const imageData = module.decode(image);    
-                    const canvas = document.createElement('canvas');
-                    canvas.width = imageData.width;
-                    canvas.height = imageData.height;
-                    const ctx = canvas.getContext('2d');
-                    ctx.putImageData(imageData, 0, 0);
-                    runScript("app.open('" + canvas.toDataURL("image/png") + "',null,"+assmart+");");
-                } catch(e) {
+                    const imageData = module.decode(image);
+                    runScript("app.open('" + imageDataToDataURL(imageData) + "',null,"+assmart+");");
+                 } catch(e) {
+                    console.log(e.message);
                     alert("Invalid file.");
                 }
                 opentab("opentab");
@@ -198,7 +235,7 @@ window.onload = function() {
   </head>
   <body>
     <div class="bar">
-    <button id="opentab" class="selected" onclick="btn(this);">Open JXL or AVIF</button>
+    <button id="opentab" class="selected" onclick="btn(this);">Open JXL, AVIF, HEIC</button>
     <button id="savejxltab" onclick="btn(this);">Save JXL</button>
     <button id="saveaviftab" onclick="btn(this);">Save AVIF</button>
     <hr/>
@@ -211,7 +248,7 @@ window.onload = function() {
     </div>
     <div id="pageopentab" style="display:none;" class="page">
         <div><input type="checkbox" id="smart"><label for="smart" style="padding-left:4px;">Insert as Smart Object</label></div>
-        <input type="button" value="Open JXL or AVIF image" id="open" onclick="btn(this);" class="button"/>
+        <input type="button" value="Open JXL, AVIF, HEIC image" id="open" onclick="btn(this);" class="button"/>
     </div>    
     <div id="pagesavejxltab" style="display:none;" class="page">
         <div><label for="jxl_quality" style="width: 50px;">Quality:</label><input type="number" id="jxl_quality" min="0" max="100" value="75" step="1" style="width: 63px;" onchange="setLossless(this.value,'jxl')"> <input type="checkbox" id="jxl_lossless" onchange="setLossless(this.checked,'jxl')"><label for="jxl_lossless" style="padding-left:4px;">Lossless</label></div>

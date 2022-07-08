@@ -112,6 +112,8 @@ function doOCR() {
     if (s.indexOf("function()") == 0) s = s.substr("function()".length).trim();
     if (s.indexOf("{") == 0) s = s.substr(1).trim();
     if (s.lastIndexOf("}") == s.length-1) s = s.slice(0,-1).trim();
+    if (window.parent == window.self) { alert("Error reading image."); return; }
+    openloading("Reading image...");
     runScript(s, function(data) {
             var rectangle = null, buffer = null;
             if (data.length == 2 && data[0].indexOf("SELECTION.BOUNDS:") == 0) {
@@ -122,7 +124,7 @@ function doOCR() {
                 }
                 buffer = data[1];
             }
-            if (rectangle == null || !(buffer instanceof ArrayBuffer && buffer.byteLength !== undefined)) return;
+            if (rectangle == null || !(buffer instanceof ArrayBuffer && buffer.byteLength !== undefined)) { openloading(""); alert("Error reading image."); return; }
             var imgUrl = "data:image/png;base64," + btoa([].reduce.call(new Uint8Array(buffer),function(p,c){return p+String.fromCharCode(c)},''));
             initOCR(document.getElementById("language").options[document.getElementById("language").selectedIndex].value, function() {
                 (async () => {
@@ -136,7 +138,7 @@ function doOCR() {
 }
 
 window.onload = window.onresize = function() {
-    var w = document.getElementById("page").clientWidth;
+    var w = Math.max(210, document.getElementById("page").clientWidth);
     document.getElementById("language").style.width = (w - 140) + "px";
     document.getElementById("text").style.width = (w - 14) + "px";
     document.getElementById("buttonTextLayer").style.width = (w - 115) + "px";

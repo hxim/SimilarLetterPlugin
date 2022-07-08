@@ -102,10 +102,11 @@ function initOCR(language, callback) {
     } else callback();
 }
 function doOCR() {
-    function done(rectangle, text) {
+    function done(rectangle, text, status) {
         document.getElementById("imsize").innerText = rectangle.width + " x " + rectangle.height;
         document.getElementById("selpos").innerText = rectangle.left + ", " + rectangle.top;
         document.getElementById("text").value = text;
+        document.getElementById("text").title = status;
     }
 
     var s = (""+scriptExtractSelection).trim();
@@ -128,9 +129,9 @@ function doOCR() {
             var imgUrl = "data:image/png;base64," + btoa([].reduce.call(new Uint8Array(buffer),function(p,c){return p+String.fromCharCode(c)},''));
             initOCR(document.getElementById("language").options[document.getElementById("language").selectedIndex].value, function() {
                 (async () => {
-                    const { data: { text } } = await worker.recognize(imgUrl, { rectangle });
+                    const { data: { text, confidence, paragraphs, words, symobls } } = await worker.recognize(imgUrl, { rectangle });
                     openloading("");
-                    done(rectangle, text);
+                    done(rectangle, text, "Recognized " + paragraphs.length + " paragraph" + (paragraphs.length == 1 ? "" : "s") + " and " + words.length + " word" + (words.length == 1 ? "" : "s") + " with confidence " + confidence + ".");
                 })(); 
             });
     });

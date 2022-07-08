@@ -7,8 +7,8 @@
     * { border-style: solid; border-width: 0; }
     body { background-color: #474747; user-select: none; margin: 0; padding: 0; }
     body, input, select, label, textarea { font-family: "Open Sans", Sans-Serif; font-size: 13px; color: #d5d5d5; vertical-align: top; overflow: hidden; }
-    label { line-height:21px; display: inline-block; margin: 2px 6px 0 0; }
-    input, select { padding: 3px; box-sizing: border-box; margin: 0 2px; }
+    label { line-height:21px; display: inline-block; margin: 2px 6px 3px 0; }
+    input, select { padding: 3px; box-sizing: border-box; margin: 0; }
     textarea { margin: 0 0 4px 0; background-color: #252525; border-radius: 3px; width: 100%; box-sizing: border-box; padding: 4px; resize: both; }
     input[type=checkbox] { height: 26px; line-height: 26px; padding-right: 6px; }
     select, input { background-color: #252525; border: 1px solid #252525; border-radius: 3px; transition: border 0.5s; }
@@ -16,8 +16,7 @@
     .button { background-color: #606060; margin: 8px 0 0 1.5px; border-radius: 3px; border-top-width: 1px; border-top-color: rgba(255,255,255,0.15); border-bottom-width: 1px; border-bottom-color: rgba(0,0,0,0.6); border-left: 0px; border-right: 0px; padding: 7px 10px 8px 10px; font-size: 13px; overflow: hidden; text-overflow: ellipsis; cursor: pointer; }
     .button:not(:disabled):hover { background-color: #6a6a6a;}
     .button:disabled { opacity: 0.5; pointer-events: none; }
-    .page { padding: 6px; }
-    .page > div { margin-bottom: 6px; }
+    .page { padding: 6px; white-space: nowrap;}
     .spinner {  margin: auto; border: 3px solid #5d5d5d; border-radius: 50%; border-top: 3px solid #c7c7c7; width: 14px; height: 14px; animation: spinner 2s linear infinite; }
     @keyframes spinner { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 </style>
@@ -73,55 +72,75 @@ function addTextLayer() {
 }
 function checkIndexedDB(func) {
     var indexedDB = (window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB);
-    var request = indexedDB.open('indexedDB_check',1);
-    request.onsuccess = function() { request.result.close(); func(); };
-    request.onerror = function() { alert(request.error); };
+    var request = indexedDB.open("indexedDB_check",1);
+    request.onsuccess = function() { request.result.close(); func(true); };
+    request.onerror = function() { console.log("Disabling cache: indexedDB not available."); func(false); };
+}
+var currentLanguage = null;
+function initOCR(language, callback) {
+    if (typeof worker === "undefined" || currentLanguage != language) {
+        if (typeof worker !== "undefined") {(async () => {
+                await worker.loadLanguage(language);
+                await worker.initialize(language);
+                currentLanguage = language; 
+                callback();
+            })();
+        } else  checkIndexedDB(function(useCache) {
+            worker = new Tesseract.createWorker({
+                logger: m => openloading(m.status.charAt(0).toUpperCase() + m.status.slice(1) + "..." + (m.progress > 0 && m.progress < 1 ? " (" + Math.floor(100*m.progress) +"%)" : "")),
+                errorHandler: m => {  openloading(""); alert(m); },
+                cacheMethod: useCache ? "write" : "none"
+            });
+            (async () => {
+                await worker.load();
+                await worker.loadLanguage(language);
+                await worker.initialize(language);
+                currentLanguage = language; 
+                callback();
+            })();
+        });
+    } else callback();
 }
 function doOCR() {
-    checkIndexedDB(function() {
-        function done(rectangle, text) {
-            document.getElementById("imsize").innerText = rectangle.width + " x " + rectangle.height;
-            document.getElementById("selpos").innerText = rectangle.left + ", " + rectangle.top;
-            document.getElementById("text").value = text;
-        }
+    function done(rectangle, text) {
+        document.getElementById("imsize").innerText = rectangle.width + " x " + rectangle.height;
+        document.getElementById("selpos").innerText = rectangle.left + ", " + rectangle.top;
+        document.getElementById("text").value = text;
+    }
 
-        var s = (""+scriptExtractSelection).trim();
-        if (s.indexOf("function()") == 0) s = s.substr("function()".length).trim();
-        if (s.indexOf("{") == 0) s = s.substr(1).trim();
-        if (s.lastIndexOf("}") == s.length-1) s = s.slice(0,-1).trim();
-        runScript(s, function(data) {
-                var rectangle = null, buffer = null;
-                if (data.length == 2 && data[0].indexOf("SELECTION.BOUNDS:") == 0) {
-                    var b = data[0].split(":")[1].split(",");
-                    if (b.length == 4) {
-                        for (var i = 0; i < 4; i++) b[i] = parseInt(b[i]);
-                        rectangle = { left: b[0], top: b[1], width: b[2]-b[0], height: b[3]-b[1] };
-                    }
-                    buffer = data[1];
+    var s = (""+scriptExtractSelection).trim();
+    if (s.indexOf("function()") == 0) s = s.substr("function()".length).trim();
+    if (s.indexOf("{") == 0) s = s.substr(1).trim();
+    if (s.lastIndexOf("}") == s.length-1) s = s.slice(0,-1).trim();
+    runScript(s, function(data) {
+            var rectangle = null, buffer = null;
+            if (data.length == 2 && data[0].indexOf("SELECTION.BOUNDS:") == 0) {
+                var b = data[0].split(":")[1].split(",");
+                if (b.length == 4) {
+                    for (var i = 0; i < 4; i++) b[i] = parseInt(b[i]);
+                    rectangle = { left: b[0], top: b[1], width: b[2]-b[0], height: b[3]-b[1] };
                 }
-                if (rectangle == null || !(buffer instanceof ArrayBuffer && buffer.byteLength !== undefined)) return;
-                var imgUrl = "data:image/png;base64," + btoa([].reduce.call(new Uint8Array(buffer),function(p,c){return p+String.fromCharCode(c)},''));
-                var worker = new Tesseract.createWorker({
-                    logger: m => openloading(m.status.charAt(0).toUpperCase() + m.status.slice(1) + "..." + (m.progress > 0 && m.progress < 1 ? " (" + Math.floor(100*m.progress) +"%)" : "")),
-                    errorHandler: m => {  openloading(""); alert(m); }
-                });
+                buffer = data[1];
+            }
+            if (rectangle == null || !(buffer instanceof ArrayBuffer && buffer.byteLength !== undefined)) return;
+            var imgUrl = "data:image/png;base64," + btoa([].reduce.call(new Uint8Array(buffer),function(p,c){return p+String.fromCharCode(c)},''));
+            initOCR(document.getElementById("language").options[document.getElementById("language").selectedIndex].value, function() {
                 (async () => {
-                    
-                    await worker.load();
-                    await worker.loadLanguage('eng');
-                    await worker.initialize('eng');
                     const { data: { text } } = await worker.recognize(imgUrl, { rectangle });
-                    await worker.terminate();
-
                     openloading("");
                     done(rectangle, text);
-                })();                
-
-        });
+                })(); 
+            });
     });
+    
 }
 
-
+window.onload = window.onresize = function() {
+    var w = document.getElementById("page").clientWidth;
+    document.getElementById("language").style.width = (w - 140) + "px";
+    document.getElementById("text").style.width = (w - 14) + "px";
+    document.getElementById("buttonTextLayer").style.width = (w - 115) + "px";
+}
 
 
 
@@ -130,14 +149,15 @@ function doOCR() {
   <body>
     <div id="loading" style="display:none;"><div style="padding:0;text-align:center;margin:0;position:absolute;top:50%;left:50%;width:90%;transform:translate(-50%,-50%);"><div class="spinner"></div><div id="loadingtext" style="padding-top:3px;"></div></div></div>
     <div id="page" class="page">
+        <div><label style="width:120px;" for="language">Language:</label><select id="language" style="width:149px;"><option value="eng" selected>English</option><option value="sqi">Albanian</option><option value="ara">Arabic</option><option value="bul">Bulgarian</option><option value="cat">Catalan</option><option value="hrv">Croatian</option><option value="ces">Czech</option><option value="dan">Danish</option><option value="nld">Dutch</option><option value="est">Estonian</option><option value="fin">Finnish</option><option value="fra">French</option><option value="deu">German</option><option value="ell">Greek</option><option value="heb">Hebrew</option><option value="hun">Hungarian</option><option value="ind">Indonesian</option><option value="ita">Italian</option><option value="jpn">Japanese</option><option value="kor">Korean</option><option value="lit">Lithuanian</option><option value="nor">Norwegian</option><option value="fas">Persian</option><option value="pol">Polish</option><option value="por">Portuguese</option><option value="ron">Romanian</option><option value="rus">Russian</option><option value="srp">Serbian</option><option value="chi_sim">Simplified Chinese</option><option value="slk">Slovak</option><option value="spa">Spanish</option><option value="swe">Swedish</option><option value="tam">Tamil</option><option value="tha">Thai</option><option value="bod">Tibetan</option><option value="chi_tra">Traditional Chinese</option><option value="tur">Turkish</option><option value="ukr">Ukrainian</option><option value="vie">Vietnamese</option></select></div>
         <div><label style="width:120px;">Image Size:</label><label id="imsize"></label></div>
         <div><label style="width:120px;">Selected Position:</label><label id="selpos"></label></div>
-        <div><label style="width:120px;">English Text:</label></div>
+        <div><label style="width:120px;" for="text">Text:</label></div>
         <div>
-            <textarea id="text" style="width:275px;height:120px;"></textarea>
+            <textarea id="text" style="width:275px;height:120px;overflow:auto;" spellcheck="false"></textarea>
         </div>
         <input type="button" value="Start OCR" onclick="doOCR();" class="button" style="width:95px;"/>
-        <input type="button" value="Insert Text Layer" onclick="addTextLayer();" class="button" style="width:175px;"/>
+        <input type="button" value="Insert Text Layer" onclick="addTextLayer();" class="button" style="width:174px;" id="buttonTextLayer" />
     </div>
   </body>
 </html>

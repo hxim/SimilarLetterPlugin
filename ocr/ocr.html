@@ -67,8 +67,7 @@ function addTextLayer() {
     var top = document.getElementById("selpos").innerText.indexOf(",") >= 0 ? parseInt(document.getElementById("selpos").innerText.split(",")[1].trim()) : 0;
     var text = document.getElementById("text").value;
     var x = left; y = top + 24;
-    var script = "var d = app.activeDocument;d.activeLayer = d.layers[0];var nl = d.layers.add();nl.move(d.layers[0], ElementPlacement.PLACEBEFORE);nl.kind = LayerKind.TEXT;nl.name = 'Text layer';var ti = nl.textItem;ti.size = 24;var c = new SolidColor();c.rgb.red = 0;c.rgb.green = 0;c.rgb.blue = 0;ti.color = c;ti.font = 'DejaVuSans';ti.justification = Justification.LEFT;ti.contents = '{text}';ti.position = [{x}, {y}];d.activeLayer = nl;";
-    runScript(script.replaceAll("{x}",x).replaceAll("{y}",y).replaceAll("{text}",text.replaceAll("\n","\\n").replaceAll("'","'+\"'\"+")));
+    var script = `var d = app.activeDocument;d.activeLayer = d.layers[0];var nl = d.layers.add();nl.move(d.layers[0], ElementPlacement.PLACEBEFORE);nl.kind = LayerKind.TEXT;nl.name = 'Text layer';var ti = nl.textItem;ti.size = 24;var c = new SolidColor();c.rgb.red = 0;c.rgb.green = 0;c.rgb.blue = 0;ti.color = c;ti.font = 'DejaVuSans';ti.justification = Justification.LEFT;ti.contents = ${JSON.stringify(text)};ti.position = [${x}, ${y}];d.activeLayer = nl;`;
 }
 function checkIndexedDB(func) {
     var indexedDB = (window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB);
